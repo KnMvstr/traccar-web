@@ -24,6 +24,9 @@ if (!same(all.map((r) => r.commonSha))) {
 if (!same(all.map((r) => r.model ?? null))) {
   throw new Error("Modèles différents entre runs");
 }
+if (!same(all.map((r) => r.variant ?? null))) {
+  throw new Error("Variantes différentes entre runs");
+}
 if (!same(all.map((r) => r.ocVersion ?? null))) {
   throw new Error("Versions d'OpenCode différentes");
 }
@@ -147,7 +150,7 @@ const rows = ids.map((id, i) => {
 const md = [
   `# Résumé — ${off[0].suite}`,
   ``,
-  `Runs : OFF=${S.off.n}, ON=${S.on.n} | modèle : ${off[0].model ?? "défaut"} | OpenCode ${off[0].ocVersion}`,
+  `Runs : OFF=${S.off.n}, ON=${S.on.n} | modèle : ${off[0].model ?? "défaut"} | variante : ${off[0].variant ?? "défaut"} | OpenCode ${off[0].ocVersion}`,
   `Valeurs : médiane (min–max) en tokens bruts (input + output + reasoning + cache).`,
   ``,
   `| Tour | Mesure | OFF | ON | Δ médiane | appels ctx_* (ON) |`,
