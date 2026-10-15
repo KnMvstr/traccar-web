@@ -16,6 +16,7 @@ const RUNNER = a.runner ?? "benchmark/runner";
 const OFF = a.off ?? "benchmark/opencode-off";
 const ON = a.on ?? "benchmark/opencode-on";
 const model = a.model;
+const variant = a.variant;
 const pilot = "pilot" in a;
 const runs = pilot ? [0] : Array.from({ length: Number(a.runs ?? 5) }, (_, i) => i + 1);
 
@@ -68,7 +69,8 @@ try {
       g("switch", branch);
       const r = spawnSync(
         node,
-        ["run.mjs", `--arm=${arm}`, `--dir=${repo}`, `--run=${n}`, ...(model ? [`--model=${model}`] : [])],
+        ["run.mjs", `--arm=${arm}`, `--dir=${repo}`, `--run=${n}`, ...(model ? [`--model=${model}`] : []),
+        ...(variant ? [`--variant=${variant}`] : [])],
         { cwd: work, stdio: "inherit" },
       );
       if (r.status !== 0) throw new Error(`run ${n} ${arm} en échec (code ${r.status})`);

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Usage: node run.mjs --arm=on|off --dir=C:\work\traccar-on --run=1 [--model=provider/model]
+// Usage: node run.mjs --arm=on|off --dir=C:\chemin\traccar-web --run=1 [--model=provider/model] [--variant=medium]
 // run=0 : pilote, exclu des résumés. OPENCODE_BIN permet de pointer l'exécutable réel.
 import { spawn, execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "node:fs";
@@ -10,7 +10,7 @@ const BIN = process.env.OPENCODE_BIN ?? "opencode";
 const a = Object.fromEntries(
   process.argv.slice(2).map((x) => x.replace(/^--/, "").split("=")),
 );
-const { arm, dir, run = "1", model } = a;
+const { arm, dir, run = "1", model, variant } = a;
 if (!["on", "off"].includes(arm) || !dir) {
   throw new Error("--arm=on|off et --dir=<chemin> sont requis");
 }
@@ -58,9 +58,10 @@ const ocVersion = sh(BIN, ["--version"]).trim();
 // ---------- Un tour = un `opencode run` dans la même session ----------
 function runTurn(prompt, sessionId) {
   return new Promise((ok, ko) => {
-    const args = ["run", "--format", "json"]; // VERIFY : opencode run --help
+    const args = ["run", "--format", "json"];
     if (model) args.push("--model", model);
-    if (sessionId) args.push("--session", sessionId); // VERIFY
+    if (variant) args.push("--variant", variant);
+    if (sessionId) args.push("--session", sessionId);
     else args.push("--title", `bench-${arm}-run${run}`);
     args.push(prompt);
 
@@ -129,7 +130,8 @@ prompts.forEach((p, i) =>
 
 const dirtyAfter = sh("git", ["status", "--porcelain"]).trim();
 const result = {
-  suite: suite.suite, arm, run: Number(run), model: model ?? null,
+  suite: suite.suite, arm, run: Number(run),
+  model: model ?? null, variant: variant ?? null,
   commit, commonSha, ocVersion, sessionId,
   durationMs: Date.now() - t0,
   workingTreeChanged: dirtyAfter !== "",
