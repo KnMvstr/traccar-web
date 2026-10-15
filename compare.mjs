@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 const load = (arm) =>
   readdirSync(join("results", arm))
-    .filter((f) => /^run-\d+\.json$/.test(f))
+    .filter((f) => /^run-[1-9]\d*\.json$/.test(f))
     .map((f) => JSON.parse(readFileSync(join("results", arm, f), "utf8")))
     .sort((a, b) => a.run - b.run);
 
