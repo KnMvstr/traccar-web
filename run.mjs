@@ -47,9 +47,10 @@ if (cfg.mcp && JSON.stringify(cfg.mcp).includes("context-mode")) {
   fail("context-mode déclaré aussi dans mcp (doublon)");
 }
 
-const ocDir = join(cwd, ".opencode");
-const extra = existsSync(ocDir) ? readdirSync(ocDir).filter((f) => f !== "instructions.md") : [];
-if (extra.length) fail(`fichiers inattendus dans .opencode/ : ${extra.join(", ")}`);
+const tracked = sh("git", ["ls-files", ".opencode"])
+  .split("\n").map((s) => s.trim()).filter(Boolean);
+const extra = tracked.filter((f) => f !== ".opencode/instructions.md");
+if (extra.length) fail(`fichiers versionnés inattendus dans .opencode/ : ${extra.join(", ")}`);
 
 const commit = sh("git", ["rev-parse", "HEAD"]).trim();
 const commonSha = createHash("sha256").update(common).digest("hex");
