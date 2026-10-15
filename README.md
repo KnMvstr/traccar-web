@@ -42,7 +42,6 @@ Chaque run :
 traccar-web/
 ├─ .opencode/
 │  └─ instructions.md
-├─ opencode.json
 ├─ prompts.json
 ├─ prompts/
 │  ├─ P0_Inventory.md
