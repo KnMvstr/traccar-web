@@ -2,7 +2,7 @@
   "suite": "traccar-web-benchmark",
   "commonInstructions": ".opencode/instructions.md",
   "prompts": [
-    { "id": "P0", "name": "P0_Inventory",                 "file": "prompts/P0_Startup and Mapping.md",                 "measure": "setup" },
+    { "id": "P0", "name": "P0_Inventory",                 "file": "prompts/P0_StartupAndMapping.md",                 "measure": "setup" },
     { "id": "P1", "name": "P1_FullAudit",                 "file": "prompts/P1_FullAudit.md",                 "measure": "initial" },
     { "id": "P2", "name": "P2_LivePositionReliability",   "file": "prompts/P2_LivePositionReliability.md",   "measure": "marginal" },
     { "id": "P3", "name": "P3_LoadingErrorEmptyStates",   "file": "prompts/P3_LoadingErrorEmptyStates.md",   "measure": "marginal" },
