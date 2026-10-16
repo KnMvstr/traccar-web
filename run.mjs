@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdirSync, existsSync, realpathSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, realpathSync } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { argsOf, binary, capture, eventsOf, extractTurns, fingerprint, promptFile, sha, benchmarkEnv, retryGuard, normalizeRuntime, isCtx, pluginIdentity, tokens } from './bench-lib.mjs';
+import { argsOf, binary, capture, eventsOf, extractTurns, fingerprint, promptFile, sha, benchmarkEnv, retryGuard, normalizeRuntime, isCtx, pluginIdentity, tokens, resetRunResults } from './bench-lib.mjs';
 
 const a = argsOf(), { arm, run = '1', model, variant } = a;
 if (!['on', 'off'].includes(arm) || !a.dir || !model) throw new Error('--arm=on|off, --dir et --model explicite requis');
@@ -25,7 +25,7 @@ if (hasPlugin !== (arm === 'on')) throw new Error('Configuration plugin incohér
 const outDir = resolve(a.results ?? join(root, 'results'), arm);
 mkdirSync(outDir, { recursive: true });
 const base = join(outDir, `run-${run}`);
-if (existsSync(`${base}.json`)) throw new Error(`Résultat existant: ${base}.json`);
+resetRunResults(outDir, run);
 const result = { schemaVersion: 2, suite: suite.suite, arm, run: Number(run), model, variant: variant ?? null,
   commit: sh('git', ['rev-parse', 'HEAD']).trim(), commonSha: sha(common), ocVersion: sh(bin, ['--version']).trim(),
   ...fingerprint(cwd, cfg, suite, root), environmentSha: sha(env.OPENCODE_CONFIG_CONTENT), cachePolicy: 'provider-uncontrolled-local-warm', timeoutMs,

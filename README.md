@@ -161,9 +161,11 @@ Les outils temporaires et le worktree sont créés automatiquement dans
 aucun dossier externe ni chemin Windows prédéfini n'est nécessaire.
 La variable facultative `BENCH_WORK` permet de choisir un autre emplacement
 (les chemins relatifs sont résolus depuis la racine du dépôt).
-Aucun ancien run n'est écrasé : si les
-numéros demandés existent déjà dans `results/on` ou `results/off`, archivez-les
-avant de relancer une campagne. `--timeout-ms` limite chaque processus OpenCode, export et
+Les runs portant les mêmes numéros sont écrasés automatiquement dans
+`results/on` et `results/off`. Leurs anciens exports, résumés et traces sont
+supprimés avant la relance pour éviter de mélanger les exécutions. Les autres
+numéros sont conservés ; la comparaison automatique porte uniquement sur les
+runs de la nouvelle campagne. `--timeout-ms` limite chaque processus OpenCode, export et
 pré-vol compris. Un échec arrête la campagne et produit tout de même l'audit.
 
 Les exports historiques peuvent être requalifiés par prompt, avec propagation

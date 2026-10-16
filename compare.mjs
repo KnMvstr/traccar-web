@@ -2,7 +2,9 @@
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { argsOf, tokens, sha } from './bench-lib.mjs';
-const results = argsOf().results ?? 'results';
+const options = argsOf();
+const results = options.results ?? 'results';
+const selectedRuns = options.runs ? String(options.runs).split(',').map(Number) : null;
 // Invalidate old reports before any checks: a failed re-comparison must never leave old gains visible.
 writeFileSync(join(results, 'summary.json'), JSON.stringify({ valid: false, reason: 'comparison-not-validated' }, null, 2));
 writeFileSync(join(results, 'summary.md'), '# Comparaison non validée\n\nAucun gain officiel. Consulter validity.json et les erreurs du comparateur.\n');
@@ -12,6 +14,7 @@ const load = (arm) =>
   readdirSync(join(results, arm))
     .filter((f) => /^run-[1-9]\d*\.json$/.test(f))
     .map((f) => JSON.parse(readFileSync(join(results, arm, f), "utf8")))
+    .filter(r => !selectedRuns || selectedRuns.includes(r.run))
     .sort((a, b) => a.run - b.run);
 
 const off = load("off");

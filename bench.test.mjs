@@ -1,11 +1,19 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, cpSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, cpSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { argsOf, inside, extractTurns, tokens, capture, retryGuard, benchmarkEnv } from './bench-lib.mjs';
+import { argsOf, inside, extractTurns, tokens, capture, retryGuard, benchmarkEnv, resetRunResults } from './bench-lib.mjs';
+test('overwrite removes all traces of the selected run and preserves other numbers', () => {
+  const root = mkdtempSync(join(tmpdir(), 'traccar-overwrite-'));
+  for (const name of ['run-1.json', 'run-1.export.json', 'run-1.P7.process.json', 'run-10.json', 'run-2.json', 'notes.txt']) writeFileSync(join(root, name), 'old');
+  resetRunResults(root, 1);
+  for (const name of ['run-1.json', 'run-1.export.json', 'run-1.P7.process.json']) assert.equal(existsSync(join(root, name)), false);
+  for (const name of ['run-10.json', 'run-2.json', 'notes.txt']) assert.equal(readFileSync(join(root, name), 'utf8'), 'old');
+  assert.throws(() => resetRunResults(root, '../1'));
+});
 const user = () => ({ info: { role: 'user' }, parts: [] });
 const assistant = (finish = 'stop', parts = [{ type: 'text', text: 'Audit terminé' }], extra = {}) => ({ info: {
   role: 'assistant', finish, providerID: 'test', modelID: 'model', variant: 'medium', time: { completed: 123 }, tokens: { total: 69, input: 10, output: 20, reasoning: 7, cache: { read: 30, write: 2 } }, cost: .12, ...extra }, parts });

@@ -1,9 +1,17 @@
 import { createHash } from 'node:crypto';
-import { readFileSync, realpathSync, existsSync } from 'node:fs';
+import { readFileSync, realpathSync, existsSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
 import { resolve, relative, isAbsolute, win32 } from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 
 export const sha = (value) => createHash('sha256').update(value).digest('hex');
+export function resetRunResults(directory, run) {
+  if (!/^\d+$/.test(String(run))) throw new Error('Numéro de run invalide');
+  mkdirSync(directory, { recursive: true });
+  const prefix = `run-${run}.`;
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    if ((entry.isFile() || entry.isSymbolicLink()) && entry.name.startsWith(prefix)) unlinkSync(resolve(directory, entry.name));
+  }
+}
 export const stable = value => value && typeof value === 'object' ? Array.isArray(value) ? value.map(stable) : Object.fromEntries(Object.keys(value).sort().map(k => [k, stable(value[k])])) : value;
 export function normalizeRuntime(config, agent) {
   const c = structuredClone(config), ag = structuredClone(agent);

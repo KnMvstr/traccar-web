@@ -6,7 +6,7 @@ import { cpSync, mkdirSync, existsSync, readFileSync, writeFileSync } from "node
 import { createHash } from "node:crypto";
 import { resolve, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { argsOf, stable, promptFile } from './bench-lib.mjs';
+import { argsOf, stable, promptFile, resetRunResults } from './bench-lib.mjs';
 
 const a = argsOf();
 const repo = resolve(a.repo ?? dirname(fileURLToPath(import.meta.url)));
@@ -75,10 +75,12 @@ for (const p of suite.prompts) {
 const node = process.execPath;
 const results = join(repo, 'results');
 mkdirSync(results, { recursive: true });
+writeFileSync(join(results, 'summary.json'), JSON.stringify({ valid: false, reason: 'campaign-in-progress' }, null, 2));
+writeFileSync(join(results, 'summary.md'), '# Campagne en cours\n\nLes anciens rapports sont remplacés. Aucun gain validé pour cette campagne.\n');
 for (const arm of ['on', 'off']) {
   mkdirSync(join(results, arm), { recursive: true });
   for (const n of runs) {
-    if (existsSync(join(results, arm, `run-${n}.json`))) die(`résultat déjà présent : results/${arm}/run-${n}.json ; archivez les résultats précédents avant une nouvelle campagne`);
+    resetRunResults(join(results, arm), n);
   }
 }
 const project = join(campaign, 'project');
@@ -110,7 +112,7 @@ try {
     }
   }
   if (!pilot) {
-    const comparison = spawnSync(node, ["compare.mjs", `--results=${results}`], { cwd: tools, stdio: "inherit" });
+    const comparison = spawnSync(node, ["compare.mjs", `--results=${results}`, `--runs=${runs.join(',')}`], { cwd: tools, stdio: "inherit" });
     if (comparison.status !== 0) throw new Error('Comparaison invalide');
   }
 } finally {
