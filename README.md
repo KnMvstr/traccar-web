@@ -149,10 +149,17 @@ node audit.mjs --results=C:\chemin\campagne\results --refresh-metrics
 node compare.mjs --results=C:\chemin\campagne\results
 ```
 
-`BENCH_WORK` choisit le dossier parent des campagnes (par défaut
-`C:\work\traccar-bench-run`). Chaque campagne a ses propres outils, un manifeste
-avec empreintes et refs, un diagnostic, puis ses résultats OFF/ON. Aucun ancien
-run n'est écrasé. `--timeout-ms` limite chaque processus OpenCode, export et
+Les résultats sont écrits dans le dépôt d'origine : `results/on` et
+`results/off` pour les exports, résumés et traces par prompt ;
+`results/diagnostic` pour le diagnostic ; `results/manifest.json`,
+`results/audit.*` et `results/summary.*` pour le manifeste et les rapports.
+Les commandes `node audit.mjs` et `node compare.mjs` utilisent ce dossier
+`results` par défaut lorsqu'elles sont lancées depuis le dépôt.
+
+`BENCH_WORK` choisit uniquement le dossier temporaire des outils et du worktree
+(par défaut `C:\work\traccar-bench-run`). Aucun ancien run n'est écrasé : si les
+numéros demandés existent déjà dans `results/on` ou `results/off`, archivez-les
+avant de relancer une campagne. `--timeout-ms` limite chaque processus OpenCode, export et
 pré-vol compris. Un échec arrête la campagne et produit tout de même l'audit.
 
 Les exports historiques peuvent être requalifiés par prompt, avec propagation

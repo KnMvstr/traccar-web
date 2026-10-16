@@ -73,11 +73,20 @@ for (const p of suite.prompts) {
 
 // ---------- Exécution ----------
 const node = process.execPath;
-const results = join(campaign, 'results');
+const results = join(repo, 'results');
+mkdirSync(results, { recursive: true });
+for (const arm of ['on', 'off']) {
+  mkdirSync(join(results, arm), { recursive: true });
+  for (const n of runs) {
+    if (existsSync(join(results, arm, `run-${n}.json`))) die(`résultat déjà présent : results/${arm}/run-${n}.json ; archivez les résultats précédents avant une nouvelle campagne`);
+  }
+}
 const project = join(campaign, 'project');
 const pg = (...args) => execFileSync('git', args, { cwd: project, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 const refs = { off: g('rev-parse', OFF), on: g('rev-parse', ON) };
-writeFileSync(join(campaign, 'manifest.json'), JSON.stringify({ refs, model, variant, runs, toolHashes, createdAt: new Date().toISOString() }, null, 2));
+const manifest = JSON.stringify({ refs, model, variant, runs, toolHashes, results, campaign, createdAt: new Date().toISOString() }, null, 2);
+writeFileSync(join(campaign, 'manifest.json'), manifest);
+writeFileSync(join(results, 'manifest.json'), manifest);
 g('worktree', 'add', '--detach', project, refs.on);
 console.error(`Campagne : ${campaign}`);
 try {
