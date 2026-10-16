@@ -2,5 +2,5 @@
   "name": "traccar-bench",
   "private": true,
   "type": "module",
-  "scripts": { "compare": "node compare.mjs" }
+  "scripts": { "compare": "node compare.mjs", "test": "node --test bench.test.mjs", "audit": "node audit.mjs" }
 }

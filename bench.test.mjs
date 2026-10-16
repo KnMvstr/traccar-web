@@ -1,0 +1,130 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, cpSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
+import { pathToFileURL, fileURLToPath } from 'node:url';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { argsOf, inside, extractTurns, tokens, capture, retryGuard, benchmarkEnv } from './bench-lib.mjs';
+const user = () => ({ info: { role: 'user' }, parts: [] });
+const assistant = (finish = 'stop', parts = [{ type: 'text', text: 'Audit terminé' }], extra = {}) => ({ info: {
+  role: 'assistant', finish, providerID: 'test', modelID: 'model', variant: 'medium', time: { completed: 123 }, tokens: { total: 69, input: 10, output: 20, reasoning: 7, cache: { read: 30, write: 2 } }, cost: .12, ...extra }, parts });
+test('arguments preserve = and Windows path boundaries', () => {
+  assert.equal(argsOf(['--model=a=b']).model, 'a=b');
+  const root = 'C:\\Users\\name\\OneDrive - Accenture\\project';
+  assert.equal(inside(root, 'src\\main.js'), root + '\\src\\main.js');
+  for (const path of ['..\\project-evil\\file', 'C:\\Users\\name.name\\file', 'D:\\file']) assert.throws(() => inside(root, path));
+});
+test('only a final stop with text, completion and settled tools is valid', () => {
+  for (const finish of ['tool-calls', 'length', 'error', 'cancelled', undefined]) {
+    const m = assistant(); m.info.finish = finish;
+    assert.equal(extractTurns({ messages: [user(), m] })[0].valid, false);
+  }
+  assert.equal(extractTurns({ messages: [user(), assistant()] })[0].valid, true);
+  assert.equal(extractTurns({ messages: [user(), assistant('stop', [])] })[0].valid, false);
+  assert.equal(extractTurns({ messages: [user(), assistant('stop', [{ type: 'tool', tool: 'read', state: { status: 'running' } }, { type: 'text', text: 'done' }])] })[0].valid, false);
+});
+test('permission errors can recover, otherwise downstream context is invalid', () => {
+  for (const tool of ['read', 'grep']) {
+    const denied = assistant('tool-calls', [{ type: 'tool', tool, state: { status: 'error', input: { path: 'bad' }, error: 'The user rejected permission to use this specific tool call.', time: { end: 123 } } }]);
+    const turns = extractTurns({ messages: [user(), denied, user(), assistant()] });
+    assert.equal(turns[0].permissionEvents.length, 1); assert.equal(turns[0].valid, false);
+    assert.equal(turns[1].valid, true); assert.equal(turns[1].comparable, false); assert.equal(turns[1].contextDiverged, true);
+    assert.equal(extractTurns({ messages: [user(), denied, assistant()] })[0].valid, true);
+  }
+});
+test('ctx success/failure and raw costs/tokens remain distinct', () => {
+  const parts = ['completed', 'error'].map(status => ({ type: 'tool', tool: 'context-mode_ctx_execute', state: { status } }));
+  const t = extractTurns({ messages: [user(), assistant('tool-calls', parts), assistant()] })[0];
+  assert.equal(t.ctxToolCalls, 2); assert.equal(t.ctxSucceeded, 1); assert.equal(t.ctxFailed, 1);
+  assert.equal(t.ctxProcessingSucceeded, 1);
+  assert.equal(t.cost, .24); assert.equal(t.calls.length, 2); assert.equal(tokens(t), 138); assert.equal(t.reasoning, 14);
+  const included = structuredClone(t); included.calls.forEach(c => { c.tokens.total = 62; });
+  assert.equal(tokens(included), 124);
+  included.calls[0].tokens.total = 999; assert.throws(() => tokens(included));
+});
+test('permission overlay denies external paths and retry guard is bounded', () => {
+  const env = JSON.parse(benchmarkEnv().OPENCODE_CONFIG_CONTENT);
+  assert.equal(env.permission.external_directory, 'deny'); assert.equal(env.agent.build.permission.edit, 'deny');
+  const guard = retryGuard();
+  for (let n = 0; n < 3; n++) {
+    const event = { part: { id: String(n), type: 'tool', tool: 'read', state: { status: 'error', error: 'permission denied' } } };
+    assert.equal(guard(event), n === 2 ? 'retry-limit:read:permission' : null);
+    assert.equal(guard(event), null);
+  }
+  guard({ part: { type: 'tool', tool: 'read', state: { status: 'completed' } } });
+  assert.equal(guard({ part: { id: 'fresh', type: 'tool', tool: 'read', state: { status: 'error', error: 'permission denied' } } }), null);
+});
+test('process timeout terminates and records timeout', async () => {
+  const r = await capture(process.execPath, ['-e', 'setInterval(()=>{},1000)'], { timeoutMs: 100 });
+  assert.equal(r.timedOut, true); assert.notEqual(r.code, 0);
+});
+
+test('runner stops after incomplete P0 and saves export; successful run reaches P7', () => {
+  const base = mkdtempSync(join(tmpdir(), 'traccar-test-')), repo = join(base, 'repo'), tools = join(base, 'tools');
+  mkdirSync(join(repo, '.opencode'), { recursive: true }); mkdirSync(tools);
+  writeFileSync(join(repo, '.opencode/instructions.md'), '# Définitions');
+  writeFileSync(join(repo, 'opencode.json'), JSON.stringify({ instructions: ['.opencode/instructions.md'] }));
+  const testEnv = { ...process.env, GIT_CONFIG_COUNT: '1', GIT_CONFIG_KEY_0: 'safe.directory', GIT_CONFIG_VALUE_0: repo.replaceAll('\\', '/') };
+  const git = (...args) => execFileSync('git', args, { cwd: repo, env: testEnv, stdio: 'pipe' });
+  git('init'); git('add', '.'); git('-c', 'user.name=Test', '-c', 'user.email=test@example.com', 'commit', '-m', 'fixture');
+  for (const f of ['run.mjs', 'bench-lib.mjs', 'prompts.json', 'prompts']) cpSync(new URL(f, import.meta.url), join(tools, f), { recursive: true });
+  const fake = join(base, 'fake.mjs');
+  writeFileSync(fake, `import {readFileSync,writeFileSync,existsSync} from 'node:fs';
+const cmd=process.argv[1];
+if(cmd?.endsWith('debug')) { console.log(JSON.stringify(process.argv[2]==='config'?{plugin:[],instructions:['.opencode/instructions.md']}:{tools:{read:true}})); process.exit(0); }
+if(cmd?.endsWith('run')||cmd?.endsWith('export')) {
+ const file=process.env.FAKE_STATE;
+ let data=existsSync(file)?JSON.parse(readFileSync(file,'utf8')):{messages:[]};
+ if(cmd.endsWith('run')) {
+ data.messages.push({info:{role:'user'},parts:[]},{info:{role:'assistant',finish:process.env.FAKE_STOP==='yes'?'stop':'tool-calls',time:{completed:123},tokens:{total:3,input:1,output:2},cost:0},parts:[{type:'text',text:'Done'}]});
+ writeFileSync(file,JSON.stringify(data)); console.log(JSON.stringify({sessionID:'test-session',type:'step_finish'}));
+ }else console.log(JSON.stringify(data)); process.exit(0);
+}`);
+  for (const stop of ['no', 'yes']) {
+    const results = join(base, stop), state = join(base, stop + '.state.json');
+    const r = spawnSync(process.execPath, [join(tools, 'run.mjs'), '--arm=off', `--dir=${repo}`, '--model=test/model', `--results=${results}`], {
+      env: { ...testEnv, OPENCODE_BIN: process.execPath, NODE_OPTIONS: `--import=${pathToFileURL(fake).href}`, FAKE_STATE: state, FAKE_STOP: stop }, encoding: 'utf8' });
+    assert.equal(r.status, stop === 'yes' ? 0 : 2, r.stderr);
+    const summary = JSON.parse(readFileSync(join(results, 'off/run-1.json'), 'utf8'));
+    assert.equal(summary.valid, stop === 'yes'); assert.equal(summary.turns.length, stop === 'yes' ? 8 : 1);
+  }
+});
+
+test('comparison reports paired complete runs and rejects an interrupted branch', () => {
+  const root = mkdtempSync(join(tmpdir(), 'traccar-compare-'));
+  const turn = extractTurns({ messages: [user(), assistant()] })[0];
+  for (const arm of ['off', 'on']) {
+    mkdirSync(join(root, arm));
+    for (const run of [1, 2]) {
+      const r = { schemaVersion: 2, valid: true, suite: 'fixture', arm, run, model: 'test/model', variant: 'medium', ocVersion: 'fixture',
+        commit: arm, sessionId: `${arm}-${run}`, pluginIdentity: { version: 'fixture' }, workingTreeChanged: false, expectedPrompts: [{ id: 'P0' }],
+        turns: [{ ...turn, id: 'P0', measure: 'marginal', durationMs: 1000, ctxProcessingSucceeded: arm === 'on' ? 1 : 0, ctxSucceeded: arm === 'on' ? 1 : 0, ctxToolCalls: arm === 'on' ? 1 : 0 }] };
+      for (const key of ['commonSha', 'applicationSha', 'configSha', 'suiteSha', 'runtimeSha', 'protocol', 'environmentSha', 'cachePolicy', 'timeoutMs']) r[key] = 'same';
+      writeFileSync(join(root, arm, `run-${run}.json`), JSON.stringify(r));
+    }
+  }
+  // fileURLToPath preserves spaces and Windows drive names.
+  const invoke = () => spawnSync(process.execPath, [fileURLToPath(new URL('./compare.mjs', import.meta.url)), `--results=${root}`], { encoding: 'utf8' });
+  const good = invoke(); assert.equal(good.status, 0, good.stderr);
+  const summary = JSON.parse(readFileSync(join(root, 'summary.json'), 'utf8'));
+  assert.equal(summary.S.off.marginal.med, 69); assert.equal(summary.S.off.n, 2); assert.equal(summary.ctxUsed, true);
+  const badFile = join(root, 'on/run-2.json'), bad = JSON.parse(readFileSync(badFile, 'utf8'));
+  bad.valid = false; bad.turns[0].valid = false; writeFileSync(badFile, JSON.stringify(bad));
+  assert.notEqual(invoke().status, 0);
+  assert.equal(JSON.parse(readFileSync(join(root, 'summary.json'), 'utf8')).valid, false);
+});
+
+test('historical audit propagates divergence and refresh cannot rehabilitate an invalid run', () => {
+  const root = mkdtempSync(join(tmpdir(), 'traccar-audit-'));
+  const raw = JSON.stringify({ messages: [user(), assistant('tool-calls'), user(), assistant()] });
+  const file = join(root, 'run-1.export.json'); writeFileSync(file, raw);
+  const turns = extractTurns(JSON.parse(raw)).map((t, i) => ({ ...t, id: `P${i}`, name: `P${i}`, measure: 'marginal', cost: 999 }));
+  writeFileSync(join(root, 'run-1.json'), JSON.stringify({ schemaVersion: 2, valid: false, turns, expectedPrompts: Array(8).fill({}) }));
+  const r = spawnSync(process.execPath, [fileURLToPath(new URL('./audit.mjs', import.meta.url)), `--results=${root}`, '--refresh-metrics'], { encoding: 'utf8' });
+  assert.equal(r.status, 2, r.stderr);
+  const audit = JSON.parse(readFileSync(join(root, 'audit.json'), 'utf8'))[0];
+  assert.equal(audit.turns[0].valid, false); assert.equal(audit.turns[1].valid, true); assert.equal(audit.turns[1].comparable, false); assert.equal(audit.turns[7].reason, 'missing');
+  const refreshed = JSON.parse(readFileSync(join(root, 'run-1.json'), 'utf8'));
+  assert.equal(refreshed.valid, false); assert.equal(refreshed.turns[0].cost, .12); assert.equal(readFileSync(file, 'utf8'), raw);
+});
