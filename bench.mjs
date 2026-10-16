@@ -10,7 +10,7 @@ import { argsOf, stable, promptFile } from './bench-lib.mjs';
 
 const a = argsOf();
 const repo = resolve(a.repo ?? dirname(fileURLToPath(import.meta.url)));
-const work = resolve(process.env.BENCH_WORK ?? "C:\\work\\traccar-bench-run");
+const work = resolve(repo, process.env.BENCH_WORK ?? '.bench-work');
 const RUNNER = a.runner ?? "benchmark/runner";
 const OFF = a.off ?? "benchmark/opencode-off";
 const ON = a.on ?? "benchmark/opencode-on";
@@ -56,7 +56,7 @@ if (hashes.off !== hashes.on) die("instructions.md différent entre OFF et ON");
 if (trees.off !== trees.on) die('fichiers versionnés différents entre OFF et ON (hors opencode.json)');
 if (JSON.stringify(stable(configs.off)) !== JSON.stringify(stable(configs.on))) die('configurations différentes hors plugin context-mode');
 
-// ---------- Copie immuable par campagne, hors du dépôt ----------
+// ---------- Copie immuable par campagne, hors du worktree mesuré ----------
 const campaign = join(work, new Date().toISOString().replace(/[:.]/g, '-'));
 const tools = join(campaign, 'tools');
 mkdirSync(tools, { recursive: true });

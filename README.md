@@ -156,8 +156,12 @@ Les résultats sont écrits dans le dépôt d'origine : `results/on` et
 Les commandes `node audit.mjs` et `node compare.mjs` utilisent ce dossier
 `results` par défaut lorsqu'elles sont lancées depuis le dépôt.
 
-`BENCH_WORK` choisit uniquement le dossier temporaire des outils et du worktree
-(par défaut `C:\work\traccar-bench-run`). Aucun ancien run n'est écrasé : si les
+Les outils temporaires et le worktree sont créés automatiquement dans
+`.bench-work/<campagne>/`, à la racine du dépôt. Ce dossier est ignoré par Git ;
+aucun dossier externe ni chemin Windows prédéfini n'est nécessaire.
+La variable facultative `BENCH_WORK` permet de choisir un autre emplacement
+(les chemins relatifs sont résolus depuis la racine du dépôt).
+Aucun ancien run n'est écrasé : si les
 numéros demandés existent déjà dans `results/on` ou `results/off`, archivez-les
 avant de relancer une campagne. `--timeout-ms` limite chaque processus OpenCode, export et
 pré-vol compris. Un échec arrête la campagne et produit tout de même l'audit.
