@@ -431,3 +431,7 @@ analyse si leur diagnostic détaillé n'est plus nécessaire. Les rapports d'aud
 et de comparaison peuvent être régénérés avec les commandes ci-dessus.
 Les dossiers `tools/` restent après exécution ; un dossier `project/` conservé
 doit être inspecté avant tout nettoyage de son worktree Git.
+
+## Benchmark team
+
+- Makindu Kenzi — [GitHub](https://github.com/KnMvstr) · [LinkedIn](https://www.linkedin.com/in/makindu-kenzi/)
