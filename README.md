@@ -87,8 +87,13 @@ deux branches. Le dépôt de travail de l'utilisateur reste disponible avec ses
 modifications. Le worktree temporaire est supprimé uniquement si Git l'accepte
 sans `--force` ; s'il est modifié, il est conservé pour inspection.
 Les refs Git sont figées au démarrage. Les fichiers suivis doivent être
-identiques hors `opencode.json`, et la configuration doit différer uniquement
-par le plugin Context Mode. Le runner enregistre les empreintes du code, des
+identiques hors `opencode.json` et `.opencode/context-mode-routing.md`. La
+configuration peut différer par le plugin Context Mode et la référence exacte
+à ce fichier dans `instructions`, autorisée uniquement dans ON. Le fichier
+référencé doit exister dans ON ; les instructions communes restent identiques.
+Le benchmark mesure donc le plugin avec ses règles de routage. L'empreinte
+`contextModeRoutingSha` conserve le contenu du fichier utilisé dans chaque run.
+Le runner enregistre les empreintes du code, des
 prompts, de la configuration, de l'overlay et de la configuration effective de
 l'agent, ainsi que les versions, le modèle et la variante. La version résolue,
 l'entrée du plugin et son lockfile sont enregistrés ; une variation entre runs

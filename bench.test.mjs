@@ -5,7 +5,50 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { argsOf, inside, extractTurns, tokens, capture, retryGuard, benchmarkEnv, resetRunResults } from './bench-lib.mjs';
+import { argsOf, inside, extractTurns, tokens, capture, retryGuard, benchmarkEnv, resetRunResults, normalizeBenchmarkConfig, normalizeRuntime, fingerprint, contextModeRouting } from './bench-lib.mjs';
+
+test('plugin and routing instructions form the treatment; other differences stay visible', (t) => {
+  const off = { instructions: ['.opencode/instructions.md'] };
+  const on = { instructions: [...off.instructions, contextModeRouting], plugin: ['context-mode'] };
+  assert.deepEqual(normalizeBenchmarkConfig(on), normalizeBenchmarkConfig(off));
+  assert.equal(on.instructions.length, 2);
+  assert.deepEqual(normalizeRuntime(on, { tools: { read: true, context_mode_ctx_execute: true } }),
+    normalizeRuntime(off, { tools: { read: true } }));
+  for (const changed of [
+    { ...on, instructions: [...on.instructions, '.opencode/other.md'] },
+    { ...on, model: 'other/model' },
+    { ...on, plugin: [...on.plugin, 'other-plugin'] },
+  ]) assert.notDeepEqual(normalizeBenchmarkConfig(changed), normalizeBenchmarkConfig(off));
+
+  const repo = mkdtempSync(join(tmpdir(), 'traccar-routing-'));
+  mkdirSync(join(repo, '.opencode'));
+  writeFileSync(join(repo, '.opencode/instructions.md'), 'common');
+  writeFileSync(join(repo, 'opencode.json'), JSON.stringify(off));
+  writeFileSync(join(repo, 'app.js'), 'original');
+  const env = { ...process.env, GIT_CONFIG_COUNT: '1', GIT_CONFIG_KEY_0: 'safe.directory', GIT_CONFIG_VALUE_0: repo.replaceAll('\\', '/') };
+  // Git checks Windows ownership even for temporary repositories created here.
+  for (const key of ['GIT_CONFIG_COUNT', 'GIT_CONFIG_KEY_0', 'GIT_CONFIG_VALUE_0']) {
+    const previous = process.env[key];
+    process.env[key] = env[key];
+    t.after(() => { if (previous === undefined) delete process.env[key]; else process.env[key] = previous; });
+  }
+  const git = (...args) => execFileSync('git', args, { cwd: repo, env, stdio: 'pipe' });
+  git('init'); git('add', '.');
+  const suite = { prompts: [] };
+  const before = fingerprint(repo, off, suite, repo);
+  writeFileSync(join(repo, contextModeRouting), 'routing v1');
+  writeFileSync(join(repo, 'opencode.json'), JSON.stringify(on));
+  git('add', '.');
+  const after = fingerprint(repo, on, suite, repo);
+  assert.equal(after.applicationSha, before.applicationSha);
+  assert.equal(after.configSha, before.configSha);
+  assert.equal(before.contextModeRoutingSha, null);
+  assert.ok(after.contextModeRoutingSha);
+  writeFileSync(join(repo, contextModeRouting), 'routing v2');
+  assert.notEqual(fingerprint(repo, on, suite, repo).contextModeRoutingSha, after.contextModeRoutingSha);
+  writeFileSync(join(repo, 'app.js'), 'changed');
+  assert.notEqual(fingerprint(repo, on, suite, repo).applicationSha, before.applicationSha);
+});
 test('overwrite removes all traces of the selected run and preserves other numbers', () => {
   const root = mkdtempSync(join(tmpdir(), 'traccar-overwrite-'));
   for (const name of ['run-1.json', 'run-1.export.json', 'run-1.P7.process.json', 'run-10.json', 'run-2.json', 'notes.txt']) writeFileSync(join(root, name), 'old');

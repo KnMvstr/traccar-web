@@ -6,7 +6,7 @@ import { cpSync, mkdirSync, existsSync, readFileSync, writeFileSync } from "node
 import { createHash } from "node:crypto";
 import { resolve, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { argsOf, stable, promptFile, resetRunResults } from './bench-lib.mjs';
+import { argsOf, stable, promptFile, resetRunResults, normalizeBenchmarkConfig, contextModeRouting } from './bench-lib.mjs';
 
 const a = argsOf();
 const repo = resolve(a.repo ?? dirname(fileURLToPath(import.meta.url)));
@@ -43,8 +43,12 @@ for (const [arm, branch] of [["off", OFF], ["on", ON]]) {
   if (!cfgBuf) die(`${branch}: opencode.json introuvable`);
   if (cfgBuf[0] === 0xef) die(`${branch}: opencode.json commence par un BOM`);
   const cfg = JSON.parse(cfgBuf.toString("utf8"));
-  configs[arm] = { ...cfg, plugin: (cfg.plugin ?? []).filter(p => !String(p).includes('context-mode')) };
-  trees[arm] = g('ls-tree', '-r', branch).split('\n').filter(line => !line.endsWith('\topencode.json')).join('\n');
+  configs[arm] = normalizeBenchmarkConfig(cfg);
+  trees[arm] = g('ls-tree', '-r', branch).split('\n').filter(line => !['opencode.json', contextModeRouting].includes(line.split('\t')[1])).join('\n');
+  if ((cfg.instructions ?? []).includes(contextModeRouting)) {
+    if (arm === 'off') die(`${branch}: règles context-mode référencées dans OFF`);
+    if (!show(branch, contextModeRouting)) die(`${branch}: ${contextModeRouting} introuvable`);
+  }
   const plugin = (cfg.plugin ?? []).some((p) => String(p).includes("context-mode"));
   if (arm === "on" && !plugin) die(`${branch}: plugin context-mode absent`);
   if (arm === "off" && plugin) die(`${branch}: plugin context-mode présent`);
@@ -53,8 +57,8 @@ for (const [arm, branch] of [["off", OFF], ["on", ON]]) {
   hashes[arm] = createHash("sha256").update(ins).digest("hex");
 }
 if (hashes.off !== hashes.on) die("instructions.md différent entre OFF et ON");
-if (trees.off !== trees.on) die('fichiers versionnés différents entre OFF et ON (hors opencode.json)');
-if (JSON.stringify(stable(configs.off)) !== JSON.stringify(stable(configs.on))) die('configurations différentes hors plugin context-mode');
+if (trees.off !== trees.on) die(`fichiers versionnés différents entre OFF et ON (hors opencode.json et ${contextModeRouting})`);
+if (JSON.stringify(stable(configs.off)) !== JSON.stringify(stable(configs.on))) die('configurations différentes hors plugin et règles de routage context-mode');
 
 // ---------- Copie immuable par campagne, hors du worktree mesuré ----------
 const campaign = join(work, new Date().toISOString().replace(/[:.]/g, '-'));

@@ -4,6 +4,14 @@ import { resolve, relative, isAbsolute, win32 } from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 
 export const sha = (value) => createHash('sha256').update(value).digest('hex');
+export const contextModeRouting = '.opencode/context-mode-routing.md';
+// The treatment includes both the plugin and its explicit routing instructions.
+export function normalizeBenchmarkConfig(config) {
+  const c = structuredClone(config);
+  c.plugin = (c.plugin ?? []).filter(p => !String(p).includes('context-mode'));
+  if (Array.isArray(c.instructions)) c.instructions = c.instructions.filter(p => p !== contextModeRouting);
+  return c;
+}
 export function resetRunResults(directory, run) {
   if (!/^\d+$/.test(String(run))) throw new Error('Numéro de run invalide');
   mkdirSync(directory, { recursive: true });
@@ -14,8 +22,7 @@ export function resetRunResults(directory, run) {
 }
 export const stable = value => value && typeof value === 'object' ? Array.isArray(value) ? value.map(stable) : Object.fromEntries(Object.keys(value).sort().map(k => [k, stable(value[k])])) : value;
 export function normalizeRuntime(config, agent) {
-  const c = structuredClone(config), ag = structuredClone(agent);
-  c.plugin = (c.plugin ?? []).filter(p => !String(p).includes('context-mode'));
+  const c = normalizeBenchmarkConfig(config), ag = structuredClone(agent);
   delete c.plugin_origins;
   if (ag.tools) ag.tools = Object.fromEntries(Object.entries(ag.tools).filter(([key]) => !isCtx(key)));
   return stable({ config: c, agent: ag });
@@ -165,9 +172,9 @@ export function tokens(turn) {
 }
 export function fingerprint(cwd, cfg, suite, toolRoot) {
   const files = execFileSync('git', ['ls-files', '-z'], { cwd, encoding: 'utf8' }).split('\0').filter(Boolean);
-  const application = files.filter(f => f !== 'opencode.json');
-  const normalized = structuredClone(cfg);
-  normalized.plugin = (normalized.plugin ?? []).filter(p => !String(p).includes('context-mode'));
+  const application = files.filter(f => f !== 'opencode.json' && f !== contextModeRouting);
+  const normalized = normalizeBenchmarkConfig(cfg);
   return { applicationSha: sha(application.map(f => `${f}\0${sha(readFileSync(resolve(cwd, f)))}`).join('\n')),
+    contextModeRoutingSha: existsSync(resolve(cwd, contextModeRouting)) ? sha(readFileSync(resolve(cwd, contextModeRouting))) : null,
     configSha: sha(JSON.stringify(stable(normalized))), suiteSha: sha(JSON.stringify(suite) + suite.prompts.map(p => readFileSync(promptFile(toolRoot, p.file), 'utf8')).join('\0')) };
 }
