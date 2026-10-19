@@ -5,6 +5,7 @@ import { spawn, execFileSync } from 'node:child_process';
 
 export const sha = (value) => createHash('sha256').update(value).digest('hex');
 export const contextModeRouting = '.opencode/context-mode-routing.md';
+export const benchmarkExcludedFiles = ['opencode.json', contextModeRouting, 'README.md'];
 export function campaignFirstArm(previous) {
   // Older manifests only recorded run numbers (run 0 started with ON).
   const last = previous?.firstArm ?? (previous?.runs?.length ? (previous.runs[0] % 2 ? 'off' : 'on') : null);
@@ -185,7 +186,7 @@ export function tokens(turn) {
 }
 export function fingerprint(cwd, cfg, suite, toolRoot) {
   const files = execFileSync('git', ['ls-files', '-z'], { cwd, encoding: 'utf8' }).split('\0').filter(Boolean);
-  const application = files.filter(f => f !== 'opencode.json' && f !== contextModeRouting);
+  const application = files.filter(f => !benchmarkExcludedFiles.includes(f));
   const normalized = normalizeBenchmarkConfig(cfg);
   return { applicationSha: sha(application.map(f => `${f}\0${sha(readFileSync(resolve(cwd, f)))}`).join('\n')),
     contextModeRoutingSha: existsSync(resolve(cwd, contextModeRouting)) ? sha(readFileSync(resolve(cwd, contextModeRouting))) : null,

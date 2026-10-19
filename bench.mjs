@@ -6,7 +6,7 @@ import { cpSync, mkdirSync, existsSync, readFileSync, writeFileSync, rmSync } fr
 import { createHash } from "node:crypto";
 import { resolve, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { argsOf, stable, promptFile, resetRunResults, normalizeBenchmarkConfig, contextModeRouting, campaignFirstArm, runArmOrder } from './bench-lib.mjs';
+import { argsOf, stable, promptFile, resetRunResults, normalizeBenchmarkConfig, contextModeRouting, benchmarkExcludedFiles, campaignFirstArm, runArmOrder } from './bench-lib.mjs';
 
 const a = argsOf();
 const repo = resolve(a.repo ?? dirname(fileURLToPath(import.meta.url)));
@@ -49,7 +49,7 @@ for (const [arm, branch] of Object.entries(branches)) {
   configs[arm] = normalizeBenchmarkConfig(cfg);
   const routing = (cfg.instructions ?? []).includes(contextModeRouting);
   if (routing !== (arm === 'on')) die(`${branch}: routage context-mode incohérent pour ${arm}`);
-  trees[arm] = g('ls-tree', '-r', branch).split('\n').filter(line => !['opencode.json', contextModeRouting].includes(line.split('\t')[1])).join('\n');
+  trees[arm] = g('ls-tree', '-r', branch).split('\n').filter(line => !benchmarkExcludedFiles.includes(line.split('\t')[1])).join('\n');
   if ((cfg.instructions ?? []).includes(contextModeRouting)) {
     if (arm === 'off') die(`${branch}: règles context-mode référencées dans OFF`);
     if (!show(branch, contextModeRouting)) die(`${branch}: ${contextModeRouting} introuvable`);
@@ -63,7 +63,10 @@ for (const [arm, branch] of Object.entries(branches)) {
 }
 for (const arm of arms.filter(arm => arm !== 'off')) {
   if (hashes.off !== hashes[arm]) die(`instructions.md différent entre OFF et ${arm}`);
-  if (trees.off !== trees[arm]) die(`fichiers versionnés différents entre OFF et ${arm} (hors opencode.json et ${contextModeRouting})`);
+  if (trees.off !== trees[arm]) {
+    const differences = g('diff', '--name-status', branches.off, branches[arm], '--', '.', ...benchmarkExcludedFiles.map(file => `:!${file}`));
+    die(`fichiers versionnés différents entre OFF et ${arm} (hors ${benchmarkExcludedFiles.join(', ')})\n${differences}`);
+  }
   if (JSON.stringify(stable(configs.off)) !== JSON.stringify(stable(configs[arm]))) die(`configuration ${arm} différente hors plugin et règles de routage context-mode`);
 }
 

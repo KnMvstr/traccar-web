@@ -73,6 +73,11 @@ test('plugin and routing instructions form the treatment; other differences stay
   const after = fingerprint(repo, on, suite, repo);
   assert.equal(after.applicationSha, before.applicationSha);
   assert.equal(after.configSha, before.configSha);
+  writeFileSync(join(repo, 'README.md'), 'Branch-specific benchmark documentation');
+  git('add', 'README.md');
+  assert.equal(fingerprint(repo, on, suite, repo).applicationSha, before.applicationSha);
+  writeFileSync(join(repo, 'README.md'), 'Different documentation for another configuration');
+  assert.equal(fingerprint(repo, on, suite, repo).applicationSha, before.applicationSha);
   assert.equal(before.contextModeRoutingSha, null);
   assert.ok(after.contextModeRoutingSha);
   writeFileSync(join(repo, contextModeRouting), 'routing v2');

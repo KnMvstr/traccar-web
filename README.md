@@ -177,7 +177,9 @@ trois branches. Le dépôt de travail de l'utilisateur reste disponible avec ses
 modifications. Le worktree temporaire est supprimé uniquement si Git l'accepte
 sans `--force` ; s'il est modifié, il est conservé pour inspection.
 Les refs Git sont figées au démarrage. Les fichiers suivis doivent être
-identiques hors `opencode.json` et `.opencode/context-mode-routing.md`. La
+identiques hors `README.md`, `opencode.json` et `.opencode/context-mode-routing.md`.
+Les README peuvent décrire chaque branche différemment ; ils sont exclus du
+contrôle préalable et de l'empreinte du code comparée en fin de campagne. La
 configuration peut différer par le plugin Context Mode et la référence exacte
 à ce fichier dans `instructions`, obligatoire uniquement dans ON avec routing
 et interdite dans les deux autres configurations. Le fichier référencé doit
