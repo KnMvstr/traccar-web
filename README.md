@@ -27,12 +27,6 @@ To build a production bundle:
 npm run build
 ```
 
-## OpenCode benchmark
-
-The current branch, `benchmark/opencode-on-no-routing`, runs OpenCode with the `context-mode` plugin enabled and without explicit Context Mode routing instructions. Its [`opencode.json`](opencode.json) loads only the shared [`.opencode/instructions.md`](.opencode/instructions.md). The routing configuration and `.opencode/context-mode-routing.md` file have been removed from this branch.
-
-This branch is compared with `benchmark/opencode-on-plus-routing`, which enables the same plugin with explicit routing instructions, and `benchmark/opencode-off`, which disables the plugin. The campaign runner lives on `benchmark/opencode-runner`.
-
 ## Benchmark team
 
 - Makindu Kenzi — [GitHub](https://github.com/KnMvstr) · [LinkedIn](https://www.linkedin.com/in/makindu-kenzi/)
