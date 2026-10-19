@@ -2,11 +2,11 @@
 // Usage : node bench.mjs --model=github-copilot/gpt-5.6-luna [--runs=5] [--pilot]
 // À lancer depuis le dépôt, sur la branche benchmark/runner.
 import { execFileSync, spawnSync } from "node:child_process";
-import { cpSync, mkdirSync, existsSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, existsSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { resolve, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { argsOf, stable, promptFile, resetRunResults, normalizeBenchmarkConfig, contextModeRouting } from './bench-lib.mjs';
+import { argsOf, stable, promptFile, resetRunResults, normalizeBenchmarkConfig, contextModeRouting, campaignFirstArm, runArmOrder } from './bench-lib.mjs';
 
 const a = argsOf();
 const repo = resolve(a.repo ?? dirname(fileURLToPath(import.meta.url)));
@@ -79,8 +79,13 @@ for (const p of suite.prompts) {
 const node = process.execPath;
 const results = join(repo, 'results');
 mkdirSync(results, { recursive: true });
-writeFileSync(join(results, 'summary.json'), JSON.stringify({ valid: false, reason: 'campaign-in-progress' }, null, 2));
-writeFileSync(join(results, 'summary.md'), '# Campagne en cours\n\nLes anciens rapports sont remplacés. Aucun gain validé pour cette campagne.\n');
+const previousManifest = join(results, 'manifest.json');
+const firstArm = campaignFirstArm(existsSync(previousManifest) ? JSON.parse(readFileSync(previousManifest, 'utf8')) : null);
+// Remove reports from previous analyses before replacing their source data.
+for (const file of ['summary.json', 'summary.md', 'compare.json', 'validity.json']) {
+  rmSync(join(results, file), { force: true });
+}
+writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: false, reason: pilot ? 'pilot-excluded' : 'campaign-in-progress' }, null, 2));
 for (const arm of ['on', 'off']) {
   mkdirSync(join(results, arm), { recursive: true });
   for (const n of runs) {
@@ -90,18 +95,19 @@ for (const arm of ['on', 'off']) {
 const project = join(campaign, 'project');
 const pg = (...args) => execFileSync('git', args, { cwd: project, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 const refs = { off: g('rev-parse', OFF), on: g('rev-parse', ON) };
-const manifest = JSON.stringify({ refs, model, variant, runs, toolHashes, results, campaign, createdAt: new Date().toISOString() }, null, 2);
+const manifest = JSON.stringify({ refs, model, variant, runs, firstArm, toolHashes, results, campaign, createdAt: new Date().toISOString() }, null, 2);
 writeFileSync(join(campaign, 'manifest.json'), manifest);
 writeFileSync(join(results, 'manifest.json'), manifest);
 g('worktree', 'add', '--detach', project, refs.on);
 console.error(`Campagne : ${campaign}`);
+console.error(`Ordre initial : ${runArmOrder(firstArm, 0).join(' → ').toUpperCase()}`);
 try {
   const diagnostic = spawnSync(node, ['diagnose.mjs', `--dir=${project}`, `--model=${model}`, `--results=${results}`,
     ...(variant ? [`--variant=${variant}`] : []), ...(a['timeout-ms'] ? [`--timeout-ms=${a['timeout-ms']}`] : [])], { cwd: tools, stdio: 'inherit' });
   if (diagnostic.status !== 0) throw new Error('Diagnostic ctx préalable non concluant ; consulter les traces');
-  for (const n of runs) {
-    const order = n % 2 ? [["off", OFF], ["on", ON]] : [["on", ON], ["off", OFF]];
-    for (const [arm, branch] of order) {
+  for (const [index, n] of runs.entries()) {
+    for (const arm of runArmOrder(firstArm, index)) {
+      const branch = arm === 'on' ? ON : OFF;
       console.error(`\n=== run ${n} · ${arm} · ${branch} ===`);
       if (pg('status', '--porcelain')) throw new Error('Worktree modifié : conservé pour inspection');
       pg('switch', '--detach', refs[arm]);
@@ -116,9 +122,12 @@ try {
     }
   }
   if (!pilot) {
-    const comparison = spawnSync(node, ["compare.mjs", `--results=${results}`, `--runs=${runs.join(',')}`], { cwd: tools, stdio: "inherit" });
-    if (comparison.status !== 0) throw new Error('Comparaison invalide');
+    const comparison = spawnSync(node, ['compare.mjs', `--results=${results}`, `--runs=${runs.join(',')}`], { cwd: tools, stdio: 'inherit' });
+    if (comparison.status !== 0) throw new Error('Comparaison invalide ; consulter compare.json et validity.json');
   }
+} catch (error) {
+  writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: false, reason: 'campaign-failed', error: error.message }, null, 2));
+  throw error;
 } finally {
   if (existsSync(results)) spawnSync(node, ['audit.mjs', `--results=${results}`], { cwd: tools, stdio: 'inherit' });
   // Sans --force : Git refuse de supprimer un worktree contenant des modifications.

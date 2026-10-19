@@ -6,6 +6,24 @@ import { join, resolve } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { argsOf, inside, extractTurns, tokens, capture, retryGuard, benchmarkEnv, resetRunResults, normalizeBenchmarkConfig, normalizeRuntime, fingerprint, contextModeRouting } from './bench-lib.mjs';
+import { campaignFirstArm, runArmOrder } from './bench-lib.mjs';
+
+test('campaign starts alternate across launches, independently of pair count', () => {
+  assert.equal(campaignFirstArm(null), 'off');
+  assert.equal(campaignFirstArm({ runs: [1, 2] }), 'on');
+  assert.equal(campaignFirstArm({ runs: [0] }), 'off');
+  for (const runs of [[0], [1], [1, 2], [1, 2, 3]]) {
+    let previous;
+    for (const expected of ['off', 'on', 'off', 'on']) {
+      const firstArm = campaignFirstArm(previous);
+      assert.equal(firstArm, expected);
+      assert.deepEqual(runArmOrder(firstArm, 0), firstArm === 'off' ? ['off', 'on'] : ['on', 'off']);
+      assert.deepEqual(runArmOrder(firstArm, 1), runArmOrder(firstArm, 0).toReversed());
+      assert.deepEqual(runArmOrder(firstArm, 2), runArmOrder(firstArm, 0));
+      previous = { firstArm, runs };
+    }
+  }
+});
 
 test('plugin and routing instructions form the treatment; other differences stay visible', (t) => {
   const off = { instructions: ['.opencode/instructions.md'] };
@@ -158,12 +176,14 @@ test('comparison reports paired complete runs and rejects an interrupted branch'
   // fileURLToPath preserves spaces and Windows drive names.
   const invoke = () => spawnSync(process.execPath, [fileURLToPath(new URL('./compare.mjs', import.meta.url)), `--results=${root}`], { encoding: 'utf8' });
   const good = invoke(); assert.equal(good.status, 0, good.stderr);
-  const summary = JSON.parse(readFileSync(join(root, 'summary.json'), 'utf8'));
+  const summary = JSON.parse(readFileSync(join(root, 'compare.json'), 'utf8'));
   assert.equal(summary.S.off.marginal.med, 69); assert.equal(summary.S.off.n, 2); assert.equal(summary.ctxUsed, true);
+  assert.equal(existsSync(join(root, 'summary.json')), false);
+  assert.equal(existsSync(join(root, 'summary.md')), false);
   const badFile = join(root, 'on/run-2.json'), bad = JSON.parse(readFileSync(badFile, 'utf8'));
   bad.valid = false; bad.turns[0].valid = false; writeFileSync(badFile, JSON.stringify(bad));
   assert.notEqual(invoke().status, 0);
-  assert.equal(JSON.parse(readFileSync(join(root, 'summary.json'), 'utf8')).valid, false);
+  assert.equal(JSON.parse(readFileSync(join(root, 'compare.json'), 'utf8')).valid, false);
 });
 
 test('historical audit propagates divergence and refresh cannot rehabilitate an invalid run', () => {

@@ -5,6 +5,15 @@ import { spawn, execFileSync } from 'node:child_process';
 
 export const sha = (value) => createHash('sha256').update(value).digest('hex');
 export const contextModeRouting = '.opencode/context-mode-routing.md';
+export function campaignFirstArm(previous) {
+  // Older manifests only recorded run numbers (run 0 started with ON).
+  const last = previous?.firstArm ?? (previous?.runs?.length ? (previous.runs[0] % 2 ? 'off' : 'on') : null);
+  return last === 'off' ? 'on' : 'off';
+}
+export function runArmOrder(firstArm, index) {
+  const order = firstArm === 'on' ? ['on', 'off'] : ['off', 'on'];
+  return index % 2 ? order.reverse() : order;
+}
 // The treatment includes both the plugin and its explicit routing instructions.
 export function normalizeBenchmarkConfig(config) {
   const c = structuredClone(config);

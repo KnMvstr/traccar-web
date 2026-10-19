@@ -6,8 +6,7 @@ const options = argsOf();
 const results = options.results ?? 'results';
 const selectedRuns = options.runs ? String(options.runs).split(',').map(Number) : null;
 // Invalidate old reports before any checks: a failed re-comparison must never leave old gains visible.
-writeFileSync(join(results, 'summary.json'), JSON.stringify({ valid: false, reason: 'comparison-not-validated' }, null, 2));
-writeFileSync(join(results, 'summary.md'), '# Comparaison non validée\n\nAucun gain officiel. Consulter validity.json et les erreurs du comparateur.\n');
+writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: false, reason: 'comparison-not-validated' }, null, 2));
 
 // run-0 (pilote) exclu
 const load = (arm) =>
@@ -211,8 +210,7 @@ const md = [
   `la somme des médianes n'est pas la médiane des sommes.`,
 ].join("\n");
 
-writeFileSync(join(results, 'summary.json'), JSON.stringify({ valid: true, S, savingPct, costSavingPct, paired, disjoint, breakEven, ctxUsed,
+writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: true, S, savingPct, costSavingPct, paired, disjoint, breakEven, ctxUsed,
   metricsSha: sha(readFileSync(new URL('./bench-lib.mjs', import.meta.url))),
   individualRuns: all, costComplete: all.every(r => r.turns.every(t => t.costKnown)) }, null, 2));
-writeFileSync(join(results, 'summary.md'), md);
 console.log(md);

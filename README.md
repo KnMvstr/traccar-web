@@ -34,7 +34,7 @@ Chaque run :
 4. exporte la session ;
 5. extrait les métriques par tour ;
 6. enregistre un export brut et un résumé ;
-7. compare ensuite les branches ON et OFF.
+7. compare automatiquement les paires ON/OFF en fin de campagne et écrit `results/compare.json`.
 
 ## Structure attendue
 
@@ -113,7 +113,14 @@ pas pour cette attribution.
 
 Les caches fournisseur ne sont pas réinitialisés et leur état n'est pas
 contrôlé ; le cache local est chaud après le diagnostic. L'ordre OFF/ON alterne
-entre paires. Cette limite reste explicite dans les résultats et interdit de
+entre paires, et le premier côté alterne aussi entre campagnes successives :
+OFF → ON au premier lancement, ON → OFF au suivant, puis OFF → ON, etc.
+Cela vaut aussi pour les pilotes et ne dépend pas du nombre de paires.
+Le champ `firstArm` de `results/manifest.json` mémorise ce choix ; supprimer ce
+manifeste remet l'alternance à OFF → ON. Une campagne enregistrée compte même
+si elle échoue ensuite. Les anciens manifestes sans `firstArm` sont reconnus
+à partir du premier numéro de run (0 : ON, sinon impair : OFF, pair : ON).
+Cette limite sur les caches reste explicite dans les résultats et interdit de
 présenter l'essai comme un protocole à cache froid. Le stockage local Context
 Mode est distinct du cache de tokens du fournisseur.
 
@@ -150,14 +157,19 @@ node audit.mjs --results=C:\chemin\anciens-resultats
 # Recalcul des métriques dérivées depuis les exports v2, sans modifier les exports
 node audit.mjs --results=C:\chemin\campagne\results --refresh-metrics
 
-# Recalcul des rapports v2
+# Recalcul manuel de compare.json depuis les données v2 (hors pilote)
 node compare.mjs --results=C:\chemin\campagne\results
 ```
 
 Les résultats sont écrits dans le dépôt d'origine : `results/on` et
 `results/off` pour les exports, résumés et traces par prompt ;
 `results/diagnostic` pour le diagnostic ; `results/manifest.json`,
-`results/audit.*` et `results/summary.*` pour le manifeste et les rapports.
+`results/audit.*` pour le manifeste et l'audit de validité.
+Le runner lance automatiquement `compare.mjs` après toutes les paires d'une
+campagne normale : il produit `results/compare.json` et les contrôles détaillés
+dans `results/validity.json`. Aucun `summary.md` ni `summary.json` n'est généré.
+Les rapports d'une analyse précédente sont supprimés au début d'une nouvelle
+campagne pour éviter de les associer aux nouvelles données.
 Les commandes `node audit.mjs` et `node compare.mjs` utilisent ce dossier
 `results` par défaut lorsqu'elles sont lancées depuis le dépôt.
 
@@ -169,8 +181,10 @@ La variable facultative `BENCH_WORK` permet de choisir un autre emplacement
 Les runs portant les mêmes numéros sont écrasés automatiquement dans
 `results/on` et `results/off`. Leurs anciens exports, résumés et traces sont
 supprimés avant la relance pour éviter de mélanger les exécutions. Les autres
-numéros sont conservés ; la comparaison automatique porte uniquement sur les
-runs de la nouvelle campagne. `--timeout-ms` limite chaque processus OpenCode, export et
+numéros sont conservés ; la comparaison automatique utilise uniquement les runs
+du manifeste courant. Pour une analyse manuelle, sélectionner avec `--runs`
+les numéros du manifeste afin de ne pas mélanger les campagnes.
+`--timeout-ms` limite chaque processus OpenCode, export et
 pré-vol compris. Un échec arrête la campagne et produit tout de même l'audit.
 
 Les exports historiques peuvent être requalifiés par prompt, avec propagation
@@ -180,3 +194,120 @@ ne sont pas présents, aucune conclusion historique n'est fabriquée : il faut
 pointer leur dossier avec `audit.mjs`.
 
 Référence de configuration : [permissions OpenCode](https://opencode.ai/docs/permissions/).
+
+## À quoi servent les fichiers générés ?
+
+### Fichiers à conserver pour une analyse a posteriori
+
+Les données nécessaires à l'analyse sont les suivantes, pour **chaque paire
+ON/OFF de la campagne** :
+
+| Fichier à archiver | Ce qu'il permet d'analyser |
+|---|---|
+| `results/manifest.json` | Conditions de la campagne : modèle, variante, commits ON/OFF, numéros de runs, ordre initial et empreintes des outils. |
+| `results/on/run-N.json` et `results/off/run-N.json` | Métriques par prompt, durées, validité, contexte, tokens, coûts, versions et empreintes. Nécessaires au comparateur. |
+| `results/on/run-N.export.json` et `results/off/run-N.export.json` | Sessions brutes : messages, réponses, appels d'outils et consommation par appel. Nécessaires pour vérifier les métriques et réauditer les tours. |
+| `results/diagnostic/diagnostic.json` et `session.export.json` | Preuves du fonctionnement de ctx avant les mesures, dans une session indépendante. |
+| `.bench-work/<campagne>/tools/` | Scripts et prompts exacts de la campagne, pour réutiliser le même protocole d'analyse. |
+
+Les chemins `run-N.*` existent pour chaque numéro `N` listé dans le manifeste.
+Le pilote utilise `N = 0` et reste exclu de la comparaison statistique.
+Pour cinq paires, cela représente **23 fichiers de données**, plus la copie des
+scripts et prompts dans `tools/`. Conserver aussi l'accès aux commits Git indiqués
+par le manifeste si l'on veut inspecter le code et les configurations mesurés.
+
+Les fichiers `compare.json`, `audit.*` et `validity.json` sont des **rapports dérivés** :
+ils ne sont pas nécessaires à l'archive et peuvent être recréés depuis les données.
+Les fichiers `config`, `agent` et les traces par prompt décrits ci-dessous sont
+des compléments de diagnostic, utiles notamment pour comprendre un échec.
+L'audit et la comparaison sont automatiques ; les données brutes restent
+disponibles pour effectuer sa propre analyse.
+
+### Contenu et génération de `compare.json`
+
+Ce fichier est calculé par le script `compare.mjs`, sans appel au modèle, à partir
+des `on/run-N.json` et `off/run-N.json`. Il ne remplace pas les exports bruts.
+Il est généré automatiquement après la dernière paire d'une campagne normale,
+et peut être recalculé manuellement avec les commandes indiquées ci-dessus.
+
+Avant le calcul, le script exige des paires complètes et comparables : sessions
+distinctes, tours valides, mêmes prompts dans le même ordre, même modèle,
+variante, version OpenCode et empreintes communes, plugin ON figé et dépôt
+non modifié. Un échec bloque la comparaison ; aucun gain validé n'est publié.
+
+| Champ | Signification |
+|---|---|
+| `valid` | `true` uniquement lorsque les contrôles et calculs ont abouti. Ne prouve pas à lui seul un bénéfice de ctx. |
+| `S.off`, `S.on` | Nombre de runs ; minimum, médiane et maximum par prompt pour tokens, coûts, durées, contexte et outils ; cumuls et totaux marginaux. |
+| `savingPct` | Économie de tokens marginaux : `100 × (1 − médiane ON / médiane OFF)`. Positive si ON consomme moins ; vaut 0 si le dénominateur est nul. |
+| `costSavingPct` | Même formule pour les coûts marginaux exportés ; `null` si les coûts sont incomplets ou si le dénominateur est nul. |
+| `paired` | Tokens marginaux ON/OFF et écart pour chaque paire de runs. |
+| `breakEven` | Premier prompt où le cumul médian ON est inférieur à OFF, ou `null`. |
+| `disjoint` | Indique si le maximum marginal ON est inférieur au minimum marginal OFF ; ce n'est pas un test de significativité statistique. |
+| `ctxUsed` | Traitement ctx réussi observé dans chaque run ON ; les seuls appels de diagnostic ne suffisent pas. |
+| `costComplete` | Tous les coûts nécessaires sont connus. |
+| `metricsSha` | Empreinte du fichier `bench-lib.mjs` utilisé pour les métriques. |
+| `individualRuns` | Copie des données individuelles utilisées pour la comparaison. |
+
+Les cumuls sont calculés par run avant de prendre leur médiane. Les tokens
+proviennent des totaux par appel exportés par OpenCode ; les coûts ne sont pas
+estimés depuis un tarif. Les tours marginaux sont ceux marqués `marginal` dans
+la suite de prompts.
+
+Au démarrage, `compare.json` contient `valid: false` et
+`reason: "campaign-in-progress"`. En cas d'échec pendant l'exécution, il contient
+`reason: "campaign-failed"` et le message d'erreur. Un pilote ne calcule aucune
+comparaison : son fichier reste à `valid: false`, `reason: "pilot-excluded"`.
+Lors d'un recalcul manuel invalide, il reste à `valid: false` avec
+`reason: "comparison-not-validated"` ; consulter la sortie du script et,
+s'il a été produit, `validity.json`.
+
+Avant une nouvelle campagne, copier les données dans un dossier d'archive en
+préservant `on/`, `off/` et `diagnostic/`, puis y copier le dossier `tools/`.
+Le manifeste contient des chemins d'origine : après déplacement, utiliser les
+chemins de l'archive dans les commandes. Par exemple, depuis le dépôt :
+
+```powershell
+# Vérifier les tours depuis les exports bruts avec les scripts archivés
+node C:\archives\campagne\tools\audit.mjs --results=C:\archives\campagne
+
+# Comparer uniquement les paires de cette campagne (numéros du manifeste)
+node C:\archives\campagne\tools\compare.mjs --results=C:\archives\campagne --runs=1,2,3,4,5
+```
+
+### Détail de tous les fichiers produits
+
+`N` désigne le numéro du run et `PX` un prompt de P0 à P7.
+
+| Fichier | Utilité |
+|---|---|
+| `results/compare.json` | Comparaison ON/OFF automatique en fin de campagne : statistiques, écarts et données individuelles. Voir les champs et statuts ci-dessus. |
+| `results/validity.json` | Contrôles de validité des runs examinés par le comparateur automatique ou manuel. |
+| `results/audit.md` et `audit.json` | État de chaque prompt trouvé dans les exports, motifs d'invalidité et divergence du contexte. L'audit peut inclure des runs anciens conservés. |
+| `results/manifest.json` | Références Git figées, modèle, variante, numéros de runs, premier côté (`firstArm`), empreintes des outils et chemin de campagne. |
+| `results/{on,off}/run-N.json` | Résumé d'une session : métriques par tour, validité, versions, empreintes et outils ctx utilisés. Lu par le comparateur. |
+| `results/{on,off}/run-N.export.json` | Export brut complet de la session OpenCode, actualisé après chaque prompt. Source pour réauditer et recalculer les métriques sans appeler le modèle. |
+| `results/{on,off}/run-N.config.json` | Résultat du pré-vol de configuration effective OpenCode, avec stdout, stderr et statut du processus. |
+| `results/{on,off}/run-N.agent.json` | Résultat du pré-vol de l'agent `build`, dont ses outils disponibles. |
+| `results/{on,off}/run-N.PX.process.json` | Trace d'exécution du prompt : stdout (événements JSON), stderr, code de sortie, timeout et éventuel motif d'arrêt. |
+| `results/{on,off}/run-N.PX.export-process.json` | Trace du processus d'export après ce prompt, contenant aussi l'export dans stdout. Utile si l'export échoue ou pour retrouver l'état intermédiaire. |
+| `results/diagnostic/diagnostic.json` | Résultats du diagnostic préalable ctx : versions, chemins, configuration, agent, MCP, traces et conclusion. Session distincte des mesures. |
+| `results/diagnostic/session.export.json` | Export brut de la session de diagnostic. |
+| `results/diagnostic/last-event.json` | Dernier événement reçu pendant le diagnostic, utile pour localiser un blocage. |
+| `.bench-work/<campagne>/manifest.json` | Copie du manifeste de cette campagne. |
+| `.bench-work/<campagne>/tools/` | Copie figée des scripts et prompts utilisés, pour que les modifications du dépôt ne changent pas la campagne en cours. |
+| `.bench-work/<campagne>/project/` | Worktree temporaire des branches mesurées. Normalement supprimé à la fin ; conservé si Git refuse sa suppression. |
+
+Avec huit prompts, un run complet produit **20 fichiers par côté** : un résumé,
+un export, deux pré-vols et seize traces. Cinq paires produisent donc 200 fichiers
+dans `on/` et `off/`, en plus des rapports et du diagnostic. Cette duplication
+conserve les preuves nécessaires pour expliquer les erreurs et les mesures.
+
+Avant de relancer, copier tout `results/` ailleurs pour archiver une campagne :
+`.bench-work/` ne contient pas de copie des résultats. Pour conserver la possibilité
+de réauditer et comparer, garder les `run-N.export.json`, les `run-N.json` et le
+manifeste. Les traces par prompt et les pré-vols peuvent être supprimés après
+analyse si leur diagnostic détaillé n'est plus nécessaire. Les rapports d'audit
+et de comparaison peuvent être régénérés avec les commandes ci-dessus.
+Les dossiers `tools/` restent après exécution ; un dossier `project/` conservé
+doit être inspecté avant tout nettoyage de son worktree Git.
