@@ -27,10 +27,9 @@ To build a production bundle:
 npm run build
 ```
 
-## Team
+## Benchmark team
 
-- Anton Tananaev ([anton@traccar.org](mailto:anton@traccar.org))
-- Andrey Kunitsyn ([andrey@traccar.org](mailto:andrey@traccar.org))
+- Makindu Kenzi — [GitHub](https://github.com/KnMvstr) · [LinkedIn](https://www.linkedin.com/in/makindu-kenzi/)
 
 ## License
 
