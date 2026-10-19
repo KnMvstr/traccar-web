@@ -27,6 +27,12 @@ To build a production bundle:
 npm run build
 ```
 
+## OpenCode benchmark
+
+The `benchmark/opencode-on-plus-routing` branch runs OpenCode with Context Mode enabled and applies the routing recommendations provided by Context Mode. These rules are stored in [`.opencode/context-mode-routing.md`](.opencode/context-mode-routing.md) and loaded through the `instructions` setting in [`opencode.json`](opencode.json).
+
+The `benchmark/opencode-on-no-routing` branch is created from `benchmark/opencode-on-plus-routing` as the starting point for a comparison without routing rules. At branch creation, it still includes the routing configuration; removing that configuration is a separate step.
+
 ## Team
 
 - Anton Tananaev ([anton@traccar.org](mailto:anton@traccar.org))
