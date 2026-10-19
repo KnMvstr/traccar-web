@@ -33,10 +33,9 @@ The `benchmark/opencode-on-plus-routing` branch runs OpenCode with Context Mode 
 
 The `benchmark/opencode-on-no-routing` branch is created from `benchmark/opencode-on-plus-routing` as the starting point for a comparison without routing rules. At branch creation, it still includes the routing configuration; removing that configuration is a separate step.
 
-## Team
+## Benchmark team
 
-- Anton Tananaev ([anton@traccar.org](mailto:anton@traccar.org))
-- Andrey Kunitsyn ([andrey@traccar.org](mailto:andrey@traccar.org))
+- Makindu Kenzi — [GitHub](https://github.com/KnMvstr) · [LinkedIn](https://www.linkedin.com/in/makindu-kenzi/)
 
 ## License
 
