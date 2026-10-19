@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { argsOf, binary, capture, eventsOf, extractTurns, fingerprint, promptFile, sha, benchmarkEnv, retryGuard, normalizeRuntime, isCtx, pluginIdentity, tokens, resetRunResults } from './bench-lib.mjs';
 
 const a = argsOf(), { arm, run = '1', model, variant } = a;
-if (!['on', 'off'].includes(arm) || !a.dir || !model) throw new Error('--arm=on|off, --dir et --model explicite requis');
+if (!['on', 'off', 'on-no-routing'].includes(arm) || !a.dir || !model) throw new Error('--arm=on|on-no-routing|off, --dir et --model explicite requis');
 if (!Number.isInteger(Number(run)) || Number(run) < 0) throw new Error('--run doit être un entier positif ou nul');
 const cwd = realpathSync(a.dir), root = dirname(fileURLToPath(import.meta.url));
 const timeoutMs = Number(a['timeout-ms'] ?? 900000);
@@ -21,7 +21,7 @@ const common = readFileSync(join(cwd, suite.commonInstructions));
 const cfg = JSON.parse(readFileSync(join(cwd, 'opencode.json'), 'utf8'));
 if (!(cfg.instructions ?? []).includes(suite.commonInstructions)) throw new Error('Instructions communes non référencées');
 const hasPlugin = (cfg.plugin ?? []).some(p => String(p).includes('context-mode'));
-if (hasPlugin !== (arm === 'on')) throw new Error('Configuration plugin incohérente');
+if (hasPlugin !== (arm !== 'off')) throw new Error('Configuration plugin incohérente');
 const outDir = resolve(a.results ?? join(root, 'results'), arm);
 mkdirSync(outDir, { recursive: true });
 const base = join(outDir, `run-${run}`);

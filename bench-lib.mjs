@@ -10,7 +10,11 @@ export function campaignFirstArm(previous) {
   const last = previous?.firstArm ?? (previous?.runs?.length ? (previous.runs[0] % 2 ? 'off' : 'on') : null);
   return last === 'off' ? 'on' : 'off';
 }
-export function runArmOrder(firstArm, index) {
+export function runArmOrder(firstArm, index, arms = ['off', 'on']) {
+  if (arms.length > 2) {
+    const start = (Math.max(0, arms.indexOf(firstArm)) + index) % arms.length;
+    return [...arms.slice(start), ...arms.slice(0, start)];
+  }
   const order = firstArm === 'on' ? ['on', 'off'] : ['off', 'on'];
   return index % 2 ? order.reverse() : order;
 }

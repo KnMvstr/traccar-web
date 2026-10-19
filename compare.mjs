@@ -4,9 +4,12 @@ import { join } from "node:path";
 import { argsOf, tokens, sha } from './bench-lib.mjs';
 const options = argsOf();
 const results = options.results ?? 'results';
+const onArm = options.on ?? 'on';
+if (!['on', 'on-no-routing'].includes(onArm)) throw new Error('--on=on|on-no-routing attendu');
+const reportSuffix = onArm === 'on' ? '' : '-no-routing';
 const selectedRuns = options.runs ? String(options.runs).split(',').map(Number) : null;
 // Invalidate old reports before any checks: a failed re-comparison must never leave old gains visible.
-writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: false, reason: 'comparison-not-validated' }, null, 2));
+writeFileSync(join(results, `compare${reportSuffix}.json`), JSON.stringify({ valid: false, reason: 'comparison-not-validated' }, null, 2));
 
 // run-0 (pilote) exclu
 const load = (arm) =>
@@ -17,7 +20,7 @@ const load = (arm) =>
     .sort((a, b) => a.run - b.run);
 
 const off = load("off");
-const on = load("on");
+const on = load(onArm);
 
 if (!off.length || !on.length) {
   throw new Error("Il faut au moins un run (hors pilote) dans results/off et results/on");
@@ -26,7 +29,7 @@ if (!off.length || !on.length) {
 const same = (xs) => new Set(xs).size === 1;
 const all = [...off, ...on];
 if (all.some(r => !r.sessionId) || new Set(all.map(r => r.sessionId)).size !== all.length) throw new Error('Sessions manquantes ou réutilisées entre runs');
-writeFileSync(join(results, 'validity.json'), JSON.stringify(all.map(r => ({ arm: r.arm, run: r.run, valid: r.valid === true,
+writeFileSync(join(results, `validity${reportSuffix}.json`), JSON.stringify(all.map(r => ({ arm: r.arm, run: r.run, valid: r.valid === true,
   turns: r.turns.map(t => ({ id: t.id, valid: t.valid === true, comparable: t.comparable === true, reason: t.reason, contextDiverged: t.contextDiverged })) })), null, 2));
 if (all.some(r => r.schemaVersion !== 2 || !r.valid || r.turns.length !== r.expectedPrompts?.length || r.turns.some(t => !t.valid || !t.comparable))) throw new Error('Exécution incomplète ou ancienne : gains exclus ; voir validity.json et audit.mjs');
 if (off.map(r => r.run).join(',') !== on.map(r => r.run).join(',')) throw new Error('Paires OFF/ON manquantes');
@@ -210,7 +213,7 @@ const md = [
   `la somme des médianes n'est pas la médiane des sommes.`,
 ].join("\n");
 
-writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: true, S, savingPct, costSavingPct, paired, disjoint, breakEven, ctxUsed,
+writeFileSync(join(results, `compare${reportSuffix}.json`), JSON.stringify({ valid: true, onArm, S, savingPct, costSavingPct, paired, disjoint, breakEven, ctxUsed,
   metricsSha: sha(readFileSync(new URL('./bench-lib.mjs', import.meta.url))),
   individualRuns: all, costComplete: all.every(r => r.turns.every(t => t.costKnown)) }, null, 2));
 console.log(md);

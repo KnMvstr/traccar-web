@@ -8,6 +8,19 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { argsOf, inside, extractTurns, tokens, capture, retryGuard, benchmarkEnv, resetRunResults, normalizeBenchmarkConfig, normalizeRuntime, fingerprint, contextModeRouting } from './bench-lib.mjs';
 import { campaignFirstArm, runArmOrder } from './bench-lib.mjs';
 
+test('three configurations rotate through every position without duplicate runs', () => {
+  const arms = ['off', 'on', 'on-no-routing'];
+  for (const first of ['off', 'on']) {
+    const orders = [0, 1, 2].map(index => runArmOrder(first, index, arms));
+    assert.equal(orders[0][0], first);
+    for (const order of orders) assert.deepEqual([...order].sort(), [...arms].sort());
+    for (let position = 0; position < arms.length; position++) {
+      assert.equal(new Set(orders.map(order => order[position])).size, arms.length);
+    }
+    assert.deepEqual(runArmOrder(first, 3, arms), orders[0]);
+  }
+});
+
 test('campaign starts alternate across launches, independently of pair count', () => {
   assert.equal(campaignFirstArm(null), 'off');
   assert.equal(campaignFirstArm({ runs: [1, 2] }), 'on');
@@ -180,6 +193,20 @@ test('comparison reports paired complete runs and rejects an interrupted branch'
   assert.equal(summary.S.off.marginal.med, 69); assert.equal(summary.S.off.n, 2); assert.equal(summary.ctxUsed, true);
   assert.equal(existsSync(join(root, 'summary.json')), false);
   assert.equal(existsSync(join(root, 'summary.md')), false);
+  cpSync(join(root, 'on'), join(root, 'on-no-routing'), { recursive: true });
+  for (const run of [1, 2]) {
+    const file = join(root, 'on-no-routing', `run-${run}.json`);
+    const result = JSON.parse(readFileSync(file, 'utf8'));
+    result.arm = 'on-no-routing'; result.commit = 'no-routing'; result.sessionId = `no-routing-${run}`;
+    writeFileSync(file, JSON.stringify(result));
+  }
+  const withoutRouting = spawnSync(process.execPath, [fileURLToPath(new URL('./compare.mjs', import.meta.url)), `--results=${root}`, '--on=on-no-routing'], { encoding: 'utf8' });
+  assert.equal(withoutRouting.status, 0, withoutRouting.stderr);
+  const noRoutingSummary = JSON.parse(readFileSync(join(root, 'compare-no-routing.json'), 'utf8'));
+  assert.equal(noRoutingSummary.onArm, 'on-no-routing');
+  assert.equal(noRoutingSummary.S.on.n, 2);
+  assert.equal(existsSync(join(root, 'validity-no-routing.json')), true);
+  assert.deepEqual(JSON.parse(readFileSync(join(root, 'compare.json'), 'utf8')), summary);
   const badFile = join(root, 'on/run-2.json'), bad = JSON.parse(readFileSync(badFile, 'utf8'));
   bad.valid = false; bad.turns[0].valid = false; writeFileSync(badFile, JSON.stringify(bad));
   assert.notEqual(invoke().status, 0);

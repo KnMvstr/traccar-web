@@ -20,6 +20,38 @@ L'objectif est de mesurer :
 - la réutilisation du contexte entre plusieurs prompts ;
 - l'effet des outils `ctx_*` sur la trajectoire de session.
 
+## Campagnes à trois configurations
+
+Lancer le runner depuis `benchmark/opencode-runner`. Chaque répétition teste
+une fois chacune des trois branches :
+
+| Branche | Configuration | Résultats |
+|---|---|---|
+| `benchmark/opencode-off` | Sans Context Mode | `results/off/` |
+| `benchmark/opencode-on-plus-routing` | Context Mode avec routing | `results/on/` |
+| `benchmark/opencode-on-no-routing` | Context Mode sans routing | `results/on-no-routing/` |
+
+`--runs=5` exécute donc quinze sessions mesurées. L'ordre des trois
+configurations tourne à chaque répétition pour équilibrer leur position.
+Chaque variante ON possède son diagnostic indépendant : `results/diagnostic/`
+pour le routing et `results/on-no-routing/diagnostic/` sans routing.
+Les deux variantes exigent le plugin ; seule la variante avec routing doit
+référencer `.opencode/context-mode-routing.md`.
+
+Le même groupe OFF sert de référence aux deux comparaisons. `compare.json`
+et `validity.json` concernent ON avec routing ; `compare-no-routing.json`
+et `validity-no-routing.json` concernent ON sans routing. Les pilotes restent
+exclus des deux comparaisons. Archiver aussi `results/on-no-routing/`.
+Les descriptions ON/OFF ci-dessous s'appliquent à chaque comparaison ;
+les anciens décomptes de fichiers pour deux côtés ne couvrent pas le troisième.
+Les options `--runner`, `--off`, `--on` et `--on-no-routing` permettent de
+remplacer les noms de branches par défaut.
+
+```powershell
+# Recalcul de la comparaison sans routing
+node compare.mjs --results=results --on=on-no-routing --runs=1,2,3,4,5
+```
+
 ## Principe
 
 Le runner exécute une même séquence de prompts dans une même session OpenCode.
