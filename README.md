@@ -33,10 +33,9 @@ The current branch, `benchmark/opencode-on-no-routing`, runs OpenCode with the `
 
 This branch is compared with `benchmark/opencode-on-plus-routing`, which enables the same plugin with explicit routing instructions, and `benchmark/opencode-off`, which disables the plugin. The campaign runner lives on `benchmark/opencode-runner`.
 
-## Team
+## Benchmark team
 
-- Anton Tananaev ([anton@traccar.org](mailto:anton@traccar.org))
-- Andrey Kunitsyn ([andrey@traccar.org](mailto:andrey@traccar.org))
+- Makindu Kenzi — [GitHub](https://github.com/KnMvstr) · [LinkedIn](https://www.linkedin.com/in/makindu-kenzi/)
 
 ## License
 
