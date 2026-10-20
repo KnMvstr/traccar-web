@@ -231,3 +231,13 @@ test('historical audit propagates divergence and refresh cannot rehabilitate an 
   const refreshed = JSON.parse(readFileSync(join(root, 'run-1.json'), 'utf8'));
   assert.equal(refreshed.valid, false); assert.equal(refreshed.turns[0].cost, .12); assert.equal(readFileSync(file, 'utf8'), raw);
 });
+
+
+test('missing accounting on an intermediate response cannot be treated as zero tokens', () => {
+  const missing = assistant('unknown', [{ type: 'text', text: 'Partial response' }], {
+    id: 'missing-usage', tokens: { input: 0, output: 0, reasoning: 0, cache: { read: 0, write: 0 } },
+  });
+  const turn = extractTurns({ messages: [user(), missing, assistant()] })[0];
+  assert.equal(turn.valid, true);
+  assert.throws(() => tokens(turn), /message missing-usage, finish=unknown, total=absent/);
+});

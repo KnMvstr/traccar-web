@@ -179,7 +179,7 @@ export function tokens(turn) {
     const t = call.tokens, total = t?.total;
     const base = (t?.input ?? 0) + (t?.output ?? 0) + (t?.cache?.read ?? 0) + (t?.cache?.write ?? 0);
     if (!Number.isFinite(total) || total < 0 || (total !== base && total !== base + (t.reasoning ?? 0))) {
-      throw new Error('Schéma de tokens non rapproché : total exporté absent ou incohérent');
+      throw new Error(`Schéma de tokens non rapproché : message ${call.messageID ?? 'inconnu'}, finish=${call.finish ?? 'absent'}, total=${total ?? 'absent'}, somme=${base}, reasoning=${t?.reasoning ?? 0}`);
     }
     return sum + total;
   }, 0);

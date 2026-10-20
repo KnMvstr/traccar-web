@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, join, basename } from 'node:path';
-import { argsOf, extractTurns, sha } from './bench-lib.mjs';
+import { argsOf, extractTurns, sha, tokens } from './bench-lib.mjs';
 const a = argsOf(), root = resolve(a.results ?? 'results');
 const suite = JSON.parse(readFileSync(new URL('./prompts.json', import.meta.url), 'utf8'));
 function files(dir) { return readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? files(join(dir, e.name)) : [join(dir, e.name)]); }
@@ -14,6 +14,11 @@ for (const file of files(root).filter(f => /\.export(?:\.json)?$/.test(f) && !f.
     let diverged = false;
     turns.forEach((t, i) => {
       const saved = meta?.turns?.[i];
+      try { tokens(t); } catch (error) {
+        t.valid = false;
+        t.reason = 'token-accounting-error';
+        t.tokenAccountingError = error.message;
+      }
       if (saved?.valid === false) { t.valid = false; t.reason = saved.reason ?? 'runner-invalid'; }
       t.contextDiverged = diverged; t.comparable = t.valid && !diverged && saved?.comparable !== false; diverged ||= !t.comparable;
     });

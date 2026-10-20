@@ -93,7 +93,14 @@ try {
     }
     save();
     if (!last.valid) throw new Error(`${p.id}: ${last.reason}`);
-    last.exportedTokens = tokens(last);
+    try {
+      last.exportedTokens = tokens(last);
+    } catch (error) {
+      last.valid = last.comparable = false;
+      last.reason = 'token-accounting-error';
+      last.tokenAccountingError = error.message;
+      throw new Error(`${p.id}: ${error.message}`);
+    }
     if (sh('git', ['status', '--porcelain']).trim()) throw new Error('Working tree modifié');
   }
   result.valid = true;
