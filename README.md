@@ -171,11 +171,18 @@ corrections consécutives par outil/type d'erreur. Le runner coupe après le
 troisième échec consécutif observé dans le flux JSON. Un appel réussi remet
 le compteur de l'outil à zéro. Les événements dupliqués sont ignorés. Ce contrôle
 dépend des événements émis par OpenCode ; le timeout reste le dernier garde-fou.
+En cas d'arrêt `retry-limit`, les erreurs d'outils et leurs entrées sont affichées
+et conservées dans `retryErrors` du résumé du run. Trois fichiers inexistants
+différents peuvent donc déclencher cet arrêt ; ce n'est pas nécessairement
+trois tentatives sur un même fichier. Le run reste invalide.
 
 Chaque campagne crée un worktree détaché, utilisé au même emplacement pour les
 trois branches. Le dépôt de travail de l'utilisateur reste disponible avec ses
 modifications. Le worktree temporaire est supprimé uniquement si Git l'accepte
-sans `--force` ; s'il est modifié, il est conservé pour inspection.
+sans `--force` ; s'il est modifié, il est conservé pour inspection. Après un
+échec de campagne, aucune suppression du worktree n'est tentée, afin de
+préserver les fichiers pour le diagnostic. Un refus de nettoyage après une
+campagne réussie est signalé sans invalider les mesures.
 Les refs Git sont figées au démarrage. Les fichiers suivis doivent être
 identiques hors `README.md`, `opencode.json` et `.opencode/context-mode-routing.md`.
 Les README peuvent décrire chaque branche différemment ; ils sont exclus du

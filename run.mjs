@@ -63,6 +63,18 @@ try {
     const pr = await capture(bin, argv, { cwd, env, timeoutMs, onEvent: retryGuard() });
     writeFileSync(`${base}.${p.id}.process.json`, JSON.stringify(pr, null, 2));
     const events = eventsOf(pr.stdout);
+    if (pr.abortReason?.startsWith('retry-limit:')) {
+      const seen = new Set();
+      result.retryErrors = events.flatMap(event => {
+        const part = event.part;
+        if (part?.type !== 'tool' || part.state?.status !== 'error') return [];
+        const id = part.callID ?? part.id;
+        if (id && seen.has(id)) return [];
+        if (id) seen.add(id);
+        return [{ tool: part.tool, input: part.state.input, error: part.state.error }];
+      });
+      for (const entry of result.retryErrors) console.error(JSON.stringify(entry));
+    }
     const ids = [...new Set(events.map(e => e.sessionID ?? e.part?.sessionID).filter(Boolean))];
     if (ids.length > 1 || (sessionId && ids.some(id => id !== sessionId))) throw new Error('Session inattendue');
     sessionId ??= ids[0]; result.sessionId = sessionId;

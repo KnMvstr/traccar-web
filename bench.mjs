@@ -112,6 +112,7 @@ writeFileSync(join(results, 'manifest.json'), manifest);
 g('worktree', 'add', '--detach', project, refs.on);
 console.error(`Campagne : ${campaign}`);
 console.error(`Ordre initial : ${armOrder(firstArm, 0).join(' → ').toUpperCase()}`);
+let campaignFailed = false;
 try {
   for (const arm of arms.filter(arm => arm !== 'off')) {
     pg('switch', '--detach', refs[arm]);
@@ -142,13 +143,16 @@ try {
     }
   }
 } catch (error) {
+  campaignFailed = true;
   writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: false, reason: 'campaign-failed', error: error.message }, null, 2));
   writeFileSync(join(results, 'compare-no-routing.json'), JSON.stringify({ valid: false, reason: 'campaign-failed', error: error.message }, null, 2));
   throw error;
 } finally {
   if (existsSync(results)) spawnSync(node, ['audit.mjs', `--results=${results}`], { cwd: tools, stdio: 'inherit' });
   // Sans --force : Git refuse de supprimer un worktree contenant des modifications.
-  try { g('worktree', 'remove', project); } catch (error) {
+  if (campaignFailed) {
+    console.error(`Campagne en échec : worktree conservé pour inspection : ${project}`);
+  } else try { g('worktree', 'remove', project); } catch (error) {
     if (existsSync(project)) console.error(`Worktree conservé pour inspection : ${project}\n${error.message}`);
   }
 }
