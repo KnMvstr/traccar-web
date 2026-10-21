@@ -6,7 +6,7 @@ import { argsOf, binary, capture, eventsOf, extractTurns, benchmarkEnv, pluginId
 const a = argsOf();
 if (!a.dir || !a.model) throw new Error('--dir et --model requis');
 const cwd = realpathSync(a.dir), bin = binary(), timeoutMs = Number(a['timeout-ms'] ?? 180000);
-const env = benchmarkEnv();
+const env = benchmarkEnv(cwd);
 const out = resolve(a.results ?? 'results', 'diagnostic'); mkdirSync(out, { recursive: true });
 const evidence = { startedAt: new Date().toISOString(), model: a.model, workspace: cwd,
   config: JSON.parse(readFileSync(join(cwd, 'opencode.json'), 'utf8')), probes: {} };

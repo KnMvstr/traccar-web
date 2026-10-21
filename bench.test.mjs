@@ -241,3 +241,17 @@ test('missing accounting on an intermediate response cannot be treated as zero t
   assert.equal(turn.valid, true);
   assert.throws(() => tokens(turn), /message missing-usage, finish=unknown, total=absent/);
 });
+
+
+test('only the reviewed root env declaration receives an explicit read allowance', () => {
+  const root = mkdtempSync(join(tmpdir(), 'traccar-env-'));
+  const file = join(root, '.env');
+  writeFileSync(file, 'VITE_APP_VERSION=$npm_package_version\n');
+  const config = JSON.parse(benchmarkEnv(root).OPENCODE_CONFIG_CONTENT);
+  const key = file.replaceAll('\\', '/');
+  assert.equal(config.permission.read[key], 'allow');
+  assert.equal(config.permission.read['*.env.*'], 'ask');
+  assert.deepEqual(config.agent.build.permission.read, config.permission.read);
+  writeFileSync(file, 'VITE_APP_VERSION=$npm_package_version\nTOKEN=private');
+  assert.equal(JSON.parse(benchmarkEnv(root).OPENCODE_CONFIG_CONTENT).permission.read, undefined);
+});

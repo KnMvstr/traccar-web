@@ -163,8 +163,11 @@ stderr et exports restent disponibles, même pour une branche invalide.
 Les chemins de prompts sont normalisés et vérifiés, y compris les liens
 symboliques. L'agent reçoit la racine exacte et la consigne de travailler avec
 des chemins relatifs. Un overlay OpenCode identique OFF/ON refuse les accès
-extérieurs, les modifications et les boucles de répétition ; il n'élargit aucune
-permission. Les sous-agents et les outils de mise à jour/purge sont désactivés
+extérieurs, les modifications et les boucles de répétition. La lecture du `.env`
+à la racine est autorisée explicitement seulement si son contenu est exactement
+la déclaration publique `VITE_APP_VERSION=$npm_package_version` (hors fins de
+ligne et espaces périphériques). Les autres `.env*` conservent leurs permissions.
+Cette exception s'applique aux trois configurations et aux diagnostics. Les sous-agents et les outils de mise à jour/purge sont désactivés
 pour éviter des traitements non mesurés ou une modification de l'environnement.
 Après une erreur de chemin ou permission, l'agent a au plus deux
 corrections consécutives par outil/type d'erreur. Le runner coupe après le

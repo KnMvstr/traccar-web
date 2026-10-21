@@ -14,7 +14,7 @@ if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) throw new Error('--timeout-ms
 const suite = JSON.parse(readFileSync(join(root, 'prompts.json'), 'utf8'));
 if (suite.prompts.some(p => p.arms && !['on', 'off'].every(arm => p.arms.includes(arm)))) throw new Error('Prompts asymétriques interdits');
 const bin = binary();
-const env = benchmarkEnv();
+const env = benchmarkEnv(cwd);
 const sh = (cmd, args) => execFileSync(cmd, args, { cwd, env, encoding: 'utf8', timeout: timeoutMs, maxBuffer: 256 * 1024 * 1024 });
 if (sh('git', ['status', '--porcelain']).trim()) throw new Error('Working tree non propre');
 const common = readFileSync(join(cwd, suite.commonInstructions));

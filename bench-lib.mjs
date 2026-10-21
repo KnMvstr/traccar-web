@@ -56,12 +56,22 @@ export function pluginIdentity(pathsOutput, spec = 'context-mode') {
   return null;
 }
 export const permissionOverlay = { external_directory: 'deny', edit: 'deny', doom_loop: 'deny', question: 'deny', task: 'deny', webfetch: 'deny', websearch: 'deny', ctx_upgrade: 'deny', ctx_purge: 'deny', ctx_fetch_and_index: 'deny' };
-export function benchmarkEnv() {
+export function benchmarkEnv(cwd) {
   const base = JSON.parse(process.env.OPENCODE_CONFIG_CONTENT ?? '{}');
   const permissions = value => typeof value === 'string' ? { '*': value } : value ?? {};
+  const overlay = { ...permissionOverlay };
+  if (cwd) {
+    const root = realpathSync(cwd), file = resolve(root, '.env');
+    // Only the reviewed, public version declaration may bypass OpenCode's env prompt.
+    if (existsSync(file) && realpathSync(file) === file
+      && readFileSync(file, 'utf8').replace(/\r\n/g, '\n').trim() === 'VITE_APP_VERSION=$npm_package_version') {
+      const read = { '*': 'allow', '*.env': 'ask', '*.env.*': 'ask', '*.env.example': 'allow' };
+      overlay.read = { ...read, ...permissions(base.permission?.read), ...permissions(base.agent?.build?.permission?.read), [file.replaceAll('\\', '/')]: 'allow' };
+    }
+  }
   return { ...process.env, OPENCODE_CONFIG_CONTENT: JSON.stringify({ ...base,
-    permission: { ...permissions(base.permission), ...permissionOverlay },
-    agent: { ...base.agent, build: { ...base.agent?.build, permission: { ...permissions(base.agent?.build?.permission), ...permissionOverlay } } } }) };
+    permission: { ...permissions(base.permission), ...overlay },
+    agent: { ...base.agent, build: { ...base.agent?.build, permission: { ...permissions(base.agent?.build?.permission), ...overlay } } } }) };
 }
 export const argsOf = (args = process.argv.slice(2)) => Object.fromEntries(args.map(x => {
   const i = x.indexOf('='); return i < 0 ? [x.replace(/^--/, ''), true] : [x.slice(0, i).replace(/^--/, ''), x.slice(i + 1)];
