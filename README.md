@@ -52,7 +52,7 @@ remplacer les noms de branches par défaut.
 
 ```powershell
 # Recalcul de la comparaison sans routing
-node compare.mjs --results=results --on=on-no-routing --runs=1,2,3,4,5
+node compare.mjs --results=results --all --runs=1,2,3
 ```
 
 ## Nombre de runs et options du runner
@@ -447,3 +447,15 @@ doit être inspecté avant tout nettoyage de son worktree Git.
 ## Benchmark team
 
 - Makindu Kenzi — [GitHub](https://github.com/KnMvstr) · [LinkedIn](https://www.linkedin.com/in/makindu-kenzi/)
+
+
+Pour analyser les trois configurations en une commande :
+
+```powershell
+node compare.mjs --all --runs=1,2,3
+```
+
+`--all` exécute OFF contre ON avec routing, puis OFF contre ON sans routing.
+Les rapports `compare.json` et `compare-no-routing.json` restent séparés.
+Ce n'est pas une comparaison directe entre les deux configurations ON.
+La commande échoue si l'une des deux comparaisons est invalide.

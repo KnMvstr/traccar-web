@@ -1,8 +1,22 @@
 #!/usr/bin/env node
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { argsOf, tokens, sha } from './bench-lib.mjs';
 const options = argsOf();
+if ('all' in options) {
+  if ('on' in options) throw new Error('--all et --on sont incompatibles');
+  const args = process.argv.slice(2).filter(arg => !/^--all(?:=|$)/.test(arg));
+  let failed = false;
+  for (const arm of ['on', 'on-no-routing']) {
+    console.log(`\n=== OFF vs ${arm.toUpperCase()} ===`);
+    const result = spawnSync(process.execPath, [fileURLToPath(import.meta.url), ...args, `--on=${arm}`], { stdio: 'inherit', windowsHide: true });
+    if (result.error) console.error(result.error.message);
+    failed ||= result.status !== 0;
+  }
+  process.exit(failed ? 1 : 0);
+}
 const results = options.results ?? 'results';
 const onArm = options.on ?? 'on';
 if (!['on', 'on-no-routing'].includes(onArm)) throw new Error('--on=on|on-no-routing attendu');
