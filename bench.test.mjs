@@ -194,7 +194,8 @@ test('comparison reports paired complete runs and rejects an interrupted branch'
   // fileURLToPath preserves spaces and Windows drive names.
   const invoke = () => spawnSync(process.execPath, [fileURLToPath(new URL('./compare.mjs', import.meta.url)), `--results=${root}`], { encoding: 'utf8' });
   const good = invoke(); assert.equal(good.status, 0, good.stderr);
-  const summary = JSON.parse(readFileSync(join(root, 'compare.json'), 'utf8'));
+  const summary = JSON.parse(readFileSync(join(root, 'compare-with-routing.json'), 'utf8'));
+  assert.equal(existsSync(join(root, 'compare.json')), false);
   assert.equal(summary.S.off.marginal.med, 69); assert.equal(summary.S.off.n, 2); assert.equal(summary.ctxUsed, true);
   assert.equal(existsSync(join(root, 'summary.json')), false);
   assert.equal(existsSync(join(root, 'summary.md')), false);
@@ -211,16 +212,16 @@ test('comparison reports paired complete runs and rejects an interrupted branch'
   assert.equal(noRoutingSummary.onArm, 'on-no-routing');
   assert.equal(noRoutingSummary.S.on.n, 2);
   assert.equal(existsSync(join(root, 'validity-no-routing.json')), true);
-  assert.deepEqual(JSON.parse(readFileSync(join(root, 'compare.json'), 'utf8')), summary);
+  assert.deepEqual(JSON.parse(readFileSync(join(root, 'compare-with-routing.json'), 'utf8')), summary);
   const combined = spawnSync(process.execPath, [fileURLToPath(new URL('./compare.mjs', import.meta.url)), `--results=${root}`, '--runs=1,2', '--all'], { encoding: 'utf8' });
   assert.equal(combined.status, 0, combined.stderr);
   assert.match(combined.stdout, /OFF vs ON-NO-ROUTING/);
-  assert.equal(JSON.parse(readFileSync(join(root, 'compare.json'), 'utf8')).valid, true);
+  assert.equal(JSON.parse(readFileSync(join(root, 'compare-with-routing.json'), 'utf8')).valid, true);
   assert.equal(JSON.parse(readFileSync(join(root, 'compare-no-routing.json'), 'utf8')).valid, true);
   const badFile = join(root, 'on/run-2.json'), bad = JSON.parse(readFileSync(badFile, 'utf8'));
   bad.valid = false; bad.turns[0].valid = false; writeFileSync(badFile, JSON.stringify(bad));
   assert.notEqual(invoke().status, 0);
-  assert.equal(JSON.parse(readFileSync(join(root, 'compare.json'), 'utf8')).valid, false);
+  assert.equal(JSON.parse(readFileSync(join(root, 'compare-with-routing.json'), 'utf8')).valid, false);
 });
 
 test('historical audit propagates divergence and refresh cannot rehabilitate an invalid run', () => {

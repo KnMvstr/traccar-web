@@ -42,7 +42,7 @@ pour le routing et `results/on-no-routing/diagnostic/` sans routing.
 Les deux variantes exigent le plugin ; seule la variante avec routing doit
 référencer `.opencode/context-mode-routing.md`.
 
-Le même groupe OFF sert de référence aux deux comparaisons. `compare.json`
+Le même groupe OFF sert de référence aux deux comparaisons. `compare-with-routing.json`
 et `validity.json` concernent ON avec routing ; `compare-no-routing.json`
 et `validity-no-routing.json` concernent ON sans routing. Les pilotes restent
 exclus des deux comparaisons. Archiver aussi `results/on-no-routing/`.
@@ -122,7 +122,7 @@ Chaque run :
 5. extrait les métriques par tour ;
 6. enregistre un export brut et un résumé ;
 7. en fin de campagne hors pilote, compare chaque variante ON à OFF et écrit
-   `results/compare.json` et `results/compare-no-routing.json`.
+   `results/compare-with-routing.json` et `results/compare-no-routing.json`.
 
 ## Structure attendue
 
@@ -270,7 +270,7 @@ node audit.mjs --results=C:\chemin\anciens-resultats
 # Recalcul des métriques dérivées depuis les exports v2, sans modifier les exports
 node audit.mjs --results=C:\chemin\campagne\results --refresh-metrics
 
-# Recalcul manuel de compare.json depuis les données v2 (hors pilote)
+# Recalcul manuel de compare-with-routing.json depuis les données v2 (hors pilote)
 node compare.mjs --results=C:\chemin\campagne\results
 ```
 
@@ -280,7 +280,7 @@ Les diagnostics sont dans `results/diagnostic` et
 `results/on-no-routing/diagnostic`. `results/manifest.json` décrit la campagne
 et `results/audit.*` contient l'audit des exports présents.
 Le runner lance automatiquement les deux comparaisons après toutes les
-répétitions d'une campagne normale. Il produit `compare.json` et `validity.json`
+répétitions d'une campagne normale. Il produit `compare-with-routing.json` et `validity.json`
 pour le routing, `compare-no-routing.json` et `validity-no-routing.json` sans
 routing. Aucun `summary.md` ni `summary.json` n'est généré.
 Les rapports d'une analyse précédente sont supprimés au début d'une nouvelle
@@ -344,7 +344,7 @@ des compléments de diagnostic, utiles notamment pour comprendre un échec.
 L'audit et la comparaison sont automatiques ; les données brutes restent
 disponibles pour effectuer sa propre analyse.
 
-### Contenu et génération de `compare.json`
+### Contenu et génération de `compare-with-routing.json`
 
 Ce fichier est calculé par le script `compare.mjs`, sans appel au modèle, à partir
 des `on/run-N.json` et `off/run-N.json`. Avec `--on=on-no-routing`, il lit
@@ -409,7 +409,7 @@ de diagnostic décrits ci-dessous existent aussi sous `results/on-no-routing/dia
 
 | Fichier | Utilité |
 |---|---|
-| `results/compare.json` | Comparaison ON/OFF automatique en fin de campagne : statistiques, écarts et données individuelles. Voir les champs et statuts ci-dessus. |
+| `results/compare-with-routing.json` | Comparaison ON/OFF automatique en fin de campagne : statistiques, écarts et données individuelles. Voir les champs et statuts ci-dessus. |
 | `results/compare-no-routing.json` | Comparaison de ON sans routing à OFF. |
 | `results/validity-no-routing.json` | Contrôles de validité de cette comparaison. |
 | `results/validity.json` | Contrôles de validité des runs examinés par le comparateur automatique ou manuel. |
@@ -456,6 +456,6 @@ node compare.mjs --all --runs=1,2,3
 ```
 
 `--all` exécute OFF contre ON avec routing, puis OFF contre ON sans routing.
-Les rapports `compare.json` et `compare-no-routing.json` restent séparés.
+Les rapports `compare-with-routing.json` et `compare-no-routing.json` restent séparés.
 Ce n'est pas une comparaison directe entre les deux configurations ON.
 La commande échoue si l'une des deux comparaisons est invalide.

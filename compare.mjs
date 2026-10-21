@@ -21,9 +21,10 @@ const results = options.results ?? 'results';
 const onArm = options.on ?? 'on';
 if (!['on', 'on-no-routing'].includes(onArm)) throw new Error('--on=on|on-no-routing attendu');
 const reportSuffix = onArm === 'on' ? '' : '-no-routing';
+const comparisonFile = onArm === 'on' ? 'compare-with-routing.json' : 'compare-no-routing.json';
 const selectedRuns = options.runs ? String(options.runs).split(',').map(Number) : null;
 // Invalidate old reports before any checks: a failed re-comparison must never leave old gains visible.
-writeFileSync(join(results, `compare${reportSuffix}.json`), JSON.stringify({ valid: false, reason: 'comparison-not-validated' }, null, 2));
+writeFileSync(join(results, comparisonFile), JSON.stringify({ valid: false, reason: 'comparison-not-validated' }, null, 2));
 
 // run-0 (pilote) exclu
 const load = (arm) =>
@@ -227,7 +228,7 @@ const md = [
   `la somme des médianes n'est pas la médiane des sommes.`,
 ].join("\n");
 
-writeFileSync(join(results, `compare${reportSuffix}.json`), JSON.stringify({ valid: true, onArm, S, savingPct, costSavingPct, paired, disjoint, breakEven, ctxUsed,
+writeFileSync(join(results, comparisonFile), JSON.stringify({ valid: true, onArm, S, savingPct, costSavingPct, paired, disjoint, breakEven, ctxUsed,
   metricsSha: sha(readFileSync(new URL('./bench-lib.mjs', import.meta.url))),
   individualRuns: all, costComplete: all.every(r => r.turns.every(t => t.costKnown)) }, null, 2));
 console.log(md);

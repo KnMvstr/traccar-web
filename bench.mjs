@@ -92,10 +92,10 @@ mkdirSync(results, { recursive: true });
 const previousManifest = join(results, 'manifest.json');
 const firstArm = campaignFirstArm(existsSync(previousManifest) ? JSON.parse(readFileSync(previousManifest, 'utf8')) : null);
 // Remove reports from previous analyses before replacing their source data.
-for (const file of ['summary.json', 'summary.md', 'compare.json', 'validity.json', 'compare-no-routing.json', 'validity-no-routing.json']) {
+for (const file of ['summary.json', 'summary.md', 'compare.json', 'compare-with-routing.json', 'validity.json', 'compare-no-routing.json', 'validity-no-routing.json']) {
   rmSync(join(results, file), { force: true });
 }
-writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: false, reason: pilot ? 'pilot-excluded' : 'campaign-in-progress' }, null, 2));
+writeFileSync(join(results, 'compare-with-routing.json'), JSON.stringify({ valid: false, reason: pilot ? 'pilot-excluded' : 'campaign-in-progress' }, null, 2));
 writeFileSync(join(results, 'compare-no-routing.json'), JSON.stringify({ valid: false, reason: pilot ? 'pilot-excluded' : 'campaign-in-progress' }, null, 2));
 for (const arm of arms) {
   mkdirSync(join(results, arm), { recursive: true });
@@ -139,12 +139,12 @@ try {
   if (!pilot) {
     for (const arm of arms.filter(arm => arm !== 'off')) {
       const comparison = spawnSync(node, ['compare.mjs', `--results=${results}`, `--runs=${runs.join(',')}`, `--on=${arm}`], { cwd: tools, stdio: 'inherit' });
-      if (comparison.status !== 0) throw new Error('Comparaison invalide ; consulter compare.json et validity.json');
+      if (comparison.status !== 0) throw new Error('Comparaison invalide ; consulter compare-with-routing.json et validity.json');
     }
   }
 } catch (error) {
   campaignFailed = true;
-  writeFileSync(join(results, 'compare.json'), JSON.stringify({ valid: false, reason: 'campaign-failed', error: error.message }, null, 2));
+  writeFileSync(join(results, 'compare-with-routing.json'), JSON.stringify({ valid: false, reason: 'campaign-failed', error: error.message }, null, 2));
   writeFileSync(join(results, 'compare-no-routing.json'), JSON.stringify({ valid: false, reason: 'campaign-failed', error: error.message }, null, 2));
   throw error;
 } finally {
