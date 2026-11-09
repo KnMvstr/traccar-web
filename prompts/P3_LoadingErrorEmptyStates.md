@@ -98,6 +98,24 @@ Pour chaque commande exécutée, indique :
 Si une commande ne peut pas être exécutée, explique précisément pourquoi.
 N'invente jamais de résultat de test.
 
+# Résolution obligatoire des chemins de fichiers
+
+Avant tout appel à ctx_execute_file ou read :
+
+1. Identifie les chemins exacts à partir de git ls-files ou de l'outil glob
+   disponible.
+2. Utilise exclusivement les chemins réellement observés, relatifs à la racine
+   du workspace.
+3. Ne suppose jamais qu'un fichier possède l'extension .js ou .jsx. Vérifie
+   son extension réelle.
+4. Ne lance pas un groupe d'appels ctx_execute_file avec des chemins qui n'ont
+   pas été confirmés.
+5. En cas de fichier introuvable, recherche son chemin réel avant toute
+   nouvelle tentative.
+
+Les outils natifs et Context Mode restent disponibles. Aucun changement de
+configuration ou de routage n'est demandé.
+
 # Étape 1 - Compréhension du produit et du dépôt
 
 ## 1.1 Cartographie produit
