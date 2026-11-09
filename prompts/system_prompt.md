@@ -55,6 +55,14 @@ Avant tout appel à ctx_execute_file ou read :
    pas été confirmés.
 5. En cas de fichier introuvable, recherche son chemin réel avant toute
    nouvelle tentative.
+6. Passe à read et à ctx_execute_file le chemin relatif exactement tel que
+   renvoyé par git ls-files ou glob. Ne reconstruis jamais de mémoire un
+   chemin absolu (profil utilisateur, Desktop, OneDrive, etc.). Si un chemin
+   absolu est indispensable, copie-le tel quel depuis le résultat d'un outil
+   ou depuis le répertoire de travail courant.
+7. Une erreur de permission ou de répertoire externe signifie que le chemin
+   est hors du workspace : ne réessaie pas ce chemin, ni d'autres chemins
+   construits de la même façon. Repars du chemin relatif confirmé.
 
 Les outils natifs et Context Mode restent disponibles. Aucun changement de
 configuration ou de routage n'est demandé.
