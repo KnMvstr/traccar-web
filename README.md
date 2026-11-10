@@ -1,5 +1,13 @@
 # Traccar Web Benchmark Runner
 
+## Dynamic benchmark webpages
+
+The [Benchmark Observatory](benchmark-web/README.md) provides separate OpenCode
+and VSCode Copilot pages with interactive charts, filtered tables, cost estimates
+and a benchmark date footer. Completed, validated campaigns update automatically;
+incomplete campaigns preserve the last completed view. Start with
+`cd benchmark-web`, `npm install`, then `npm run dev`.
+
 Cette branche sert de **runner de benchmark OpenCode** pour mesurer l'impact
 de `context-mode` sur une séquence de prompts d'audit Traccar Web.
 

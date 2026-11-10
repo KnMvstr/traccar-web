@@ -1,2 +1,4 @@
 /results/
 /.bench-work/
+/benchmark-web/node_modules/
+/benchmark-web/dist/
