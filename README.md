@@ -1,5 +1,12 @@
 # Traccar Web Benchmark Runner
 
+[![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![Apache ECharts](https://img.shields.io/badge/Apache_ECharts-AA344D?logo=apacheecharts&logoColor=white)](https://echarts.apache.org/)
+[![TanStack Table](https://img.shields.io/badge/TanStack_Table-FF4154)](https://tanstack.com/table)
+[![Node.js](https://img.shields.io/badge/Node.js-5FA04E?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+
 ## Dynamic benchmark webpages
 
 The [Benchmark Observatory](benchmark-web/README.md) provides separate OpenCode
