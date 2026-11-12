@@ -61,9 +61,18 @@ serveur MCP seul ne prouve pas que les hooks/règles ont été activés ou désa
 L'état ON/OFF est une déclaration de l'utilisateur, pas une détection automatique.
 
 Option : `--timeout-ms=900000` fixe le délai maximal **par prompt**, par défaut
-quinze minutes. Une approbation d'outil en attente interrompt la campagne ;
-le lanceur ne l'accorde pas. Ne sélectionne pas un mode d'approbation automatique
-simplement pour contourner cet arrêt : examine d'abord ce que demande le pilote.
+quinze minutes, attente humaine comprise. Une approbation d'outil met la campagne
+en pause : examine la demande dans le chat, valide-la si elle convient, puis
+attends la réponse finale de Copilot. Clique alors **Réponse terminée** dans la
+notification du benchmark. Le lanceur réexporte et vérifie le même tour avant
+de poursuivre ; il ne renvoie pas le prompt et n'accorde aucune permission.
+Si d'autres demandes apparaissent dans ce tour, traite-les dans le chat avant
+de cliquer. Cliquer trop tôt provoque un arrêt, car le tour n'est pas terminé.
+Fermer la notification ou choisir **Arrêter la campagne** arrête la campagne.
+Une copie `run-N.PX.approval.export.json` conserve l'état avant validation.
+`manualApprovalWaitMs` enregistre la durée de pause ; `durationMs` l'inclut.
+Conserve le même réglage d'approbations pour OFF et ON et tiens compte de
+l'attente humaine dans toute comparaison de durée.
 
 Pour arrêter : bouton Annuler de la notification, ou commande
 **Traccar Benchmark: Stop Campaign**. Une interruption arrête les prompts

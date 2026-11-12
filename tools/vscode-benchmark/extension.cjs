@@ -103,7 +103,34 @@ async function start(context, output) {
             const exportPath = path.join(folder, `run-${run}.${prompt.id}.export.json`);
             await vscode.commands.executeCommand('workbench.action.chat.export', vscode.Uri.file(exportPath));
             if (reply === undefined) throw Error('No blocking response returned: unsupported VS Code behavior');
-            if (reply.type === 'confirmation') throw Error(`Approval required (${reply.kind}); campaign stopped. Review the chat and retry a new campaign.`);
+            let manualApprovalWaitMs = 0;
+            if (reply.type === 'confirmation') {
+              fs.copyFileSync(exportPath, path.join(folder, `run-${run}.${prompt.id}.approval.export.json`));
+              output.appendLine(`PAUSED: run ${run} ${prompt.id}, ${reply.kind} (${reply.toolId || 'chat'}). Valide la demande dans le chat, attends la réponse finale, puis clique « Réponse terminée » dans la notification.`);
+              progress.report({ message: `Run ${run}/${runs} — ${prompt.id} : validation manuelle dans le chat` });
+              const pauseStarted = Date.now();
+              let approvalTimer;
+              let stopPoll;
+              let decision;
+              try {
+                decision = await Promise.race([
+                  vscode.window.showInformationMessage(
+                    `Benchmark en pause (${reply.toolId || reply.kind}). Examine la demande dans le chat et valide-la si elle convient. Attends la réponse finale de Copilot, puis clique « Réponse terminée ».`,
+                    'Réponse terminée', 'Arrêter la campagne',
+                  ),
+                  new Promise((_, reject) => {
+                    approvalTimer = setTimeout(() => reject(Error(`Timeout waiting for manual approval at run ${run} ${prompt.id}`)), Math.max(1, timeoutMs - (Date.now() - started)));
+                    stopPoll = setInterval(() => { if (token.stopped) reject(Error('Campaign stopped')); }, 250);
+                  }),
+                ]);
+              } finally { clearTimeout(approvalTimer); clearInterval(stopPoll); }
+              if (decision !== 'Réponse terminée') throw Error('Manual approval wait dismissed or stopped');
+              assertState();
+              manualApprovalWaitMs = Date.now() - pauseStarted;
+              // Do not send a new prompt or replay the existing one. Export the same conversation.
+              await vscode.commands.executeCommand('workbench.action.chat.export', vscode.Uri.file(exportPath));
+              reply = {};
+            }
             if (reply.errorDetails) throw Error('Copilot returned an error; inspect the raw export');
             const session = JSON.parse(fs.readFileSync(exportPath, 'utf8'));
             // VS Code exports the internal model identifier (not always the public API id).
@@ -112,7 +139,7 @@ async function start(context, output) {
             if (previousRunRequestIds.has(request.requestId)) throw Error('A run reused a previous conversation');
             requestIds = session.requests.map(r => r.requestId);
             assertState();
-            result.turns.push(summarizeTurn(prompt, request, Date.now() - started));
+            result.turns.push({ ...summarizeTurn(prompt, request, Date.now() - started), manualApprovalWaitMs });
             write(path.join(folder, `run-${run}.json`), result);
             write(path.join(folder, 'campaign.json'), campaign);
             output.appendLine(`Run ${run} ${prompt.id}: completed`);

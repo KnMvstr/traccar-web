@@ -23,7 +23,8 @@ async function simulate(t, options = {}) {
     ProgressLocation: { Notification: 1 },
     window: {
       showInputBox: async () => '2', showQuickPick: async items => items[0],
-      showErrorMessage: async message => errors.push(message), showInformationMessage: () => {},
+      showErrorMessage: async message => errors.push(message),
+      showInformationMessage: async (_, ...buttons) => buttons.length && options.finishApproval ? 'Réponse terminée' : undefined,
       createOutputChannel: () => ({ show() {}, appendLine() {} }),
       withProgress: async (_, callback) => callback({ report() {} }, { onCancellationRequested: () => ({ dispose() {} }) }),
     },
@@ -50,7 +51,7 @@ async function simulate(t, options = {}) {
       git: (_, ...args) => args[0] === 'branch' ? 'vscode-gthb-copilot-off' : args[0] === 'rev-parse' ? 'commit' : '',
       loadSuite: () => [{ id: 'P0', text: 'Inventory' }, { id: 'P1', text: 'Audit' }],
     } : require(name),
-    module: { exports: {} }, setTimeout, clearTimeout,
+    module: { exports: {} }, setTimeout, clearTimeout, setInterval, clearInterval,
   };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'extension.cjs'), 'utf8'), sandbox);
   sandbox.module.exports.activate({ extensionPath: __dirname, extension: { packageJSON: { version: 'test' } }, subscriptions: [] });
@@ -76,7 +77,15 @@ test('pending approval stops before the next prompt and preserves an invalid cam
   assert.deepEqual(events, ['new:1', 'send:1:1']);
   assert.equal(campaign.complete, false);
   assert.equal(campaign.executionValid, false);
-  assert.match(errors[0], /Approval required/);
+  assert.match(errors[0], /Manual approval wait/);
+});
+
+test('manual approval continues the same turn without replaying it or creating a new chat', async t => {
+  const { events, campaign, errors } = await simulate(t, { approval: true, finishApproval: true });
+  assert.deepEqual(events, ['new:1', 'send:1:1', 'send:1:2', 'new:2', 'send:2:1', 'send:2:2']);
+  assert.equal(campaign.complete, true);
+  assert.deepEqual(errors, []);
+  assert.equal(typeof campaign.runs[0].turns[0].manualApprovalWaitMs, 'number');
 });
 
 test('cancelled response does not start the next prompt or mark the campaign complete', async t => {
