@@ -1,0 +1,1704 @@
+[
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\off\\run-0.export.json",
+    "name": "run-0.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": [
+          {
+            "name": "read",
+            "status": "error",
+            "input": {
+              "filePath": "C:\\Users\\g.makindu.mokonzi.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-10-19T19-52-35-609Z\\project\\src\\ServerProvider.jsx"
+            },
+            "error": "The user has specified a rule which prevents you from using this specific tool call. Here are some of the relevant rules [{\"permission\":\"*\",\"action\":\"allow\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"*\",\"action\":\"ask\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\GMAKIN~1.MOK\\\\AppData\\\\Local\\\\Temp\\\\opencode\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"}]",
+            "time": {
+              "start": 1792441292792,
+              "end": 1792441292820
+            }
+          }
+        ]
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\off\\run-1.export.json",
+    "name": "run-1.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": [
+          {
+            "name": "grep",
+            "status": "error",
+            "input": {
+              "pattern": "vitest|jest|@testing-library|playwright|cypress|mocha|test:|\"test\"",
+              "path": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web",
+              "include": "package.json"
+            },
+            "error": "The user has specified a rule which prevents you from using this specific tool call. Here are some of the relevant rules [{\"permission\":\"*\",\"action\":\"allow\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"*\",\"action\":\"ask\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\GMAKIN~1.MOK\\\\AppData\\\\Local\\\\Temp\\\\opencode\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"}]",
+            "time": {
+              "start": 1794264359640,
+              "end": 1794264359684
+            }
+          },
+          {
+            "name": "grep",
+            "status": "error",
+            "input": {
+              "pattern": "test|spec|coverage",
+              "path": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.github",
+              "include": "*.yml"
+            },
+            "error": "The user has specified a rule which prevents you from using this specific tool call. Here are some of the relevant rules [{\"permission\":\"*\",\"action\":\"allow\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"*\",\"action\":\"ask\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\GMAKIN~1.MOK\\\\AppData\\\\Local\\\\Temp\\\\opencode\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"}]",
+            "time": {
+              "start": 1794264359646,
+              "end": 1794264359687
+            }
+          }
+        ]
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\off\\run-2.export.json",
+    "name": "run-2.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": [
+          {
+            "name": "grep",
+            "status": "error",
+            "input": {
+              "pattern": "updateUser\\(|logout|deleteAll\\(|updatePositions\\(|refresh\\(",
+              "path": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-11-09T22-32-28-083Z\\project\\src",
+              "include": "*.{js,jsx}"
+            },
+            "error": "The user has specified a rule which prevents you from using this specific tool call. Here are some of the relevant rules [{\"permission\":\"*\",\"action\":\"allow\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"*\",\"action\":\"ask\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\GMAKIN~1.MOK\\\\AppData\\\\Local\\\\Temp\\\\opencode\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"}]",
+            "time": {
+              "start": 1794269684695,
+              "end": 1794269684700
+            }
+          }
+        ]
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\off\\run-3.export.json",
+    "name": "run-3.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\off\\run-4.export.json",
+    "name": "run-4.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": [
+          {
+            "name": "read",
+            "status": "error",
+            "input": {
+              "filePath": "C:\\Users\\g.makindu.mokonzi.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-11-09T22-32-28-083Z\\project\\src\\main\\DeviceRow.jsx"
+            },
+            "error": "The user has specified a rule which prevents you from using this specific tool call. Here are some of the relevant rules [{\"permission\":\"*\",\"action\":\"allow\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"*\",\"action\":\"ask\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\GMAKIN~1.MOK\\\\AppData\\\\Local\\\\Temp\\\\opencode\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"}]",
+            "time": {
+              "start": 1794275255624,
+              "end": 1794275255630
+            }
+          }
+        ]
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\off\\run-5.export.json",
+    "name": "run-5.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on\\run-0.export.json",
+    "name": "run-0.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 1,
+        "ctxSucceeded": 1,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 17,
+        "ctxSucceeded": 15,
+        "permissions": [
+          {
+            "name": "ctx_execute_file",
+            "status": "error",
+            "input": {
+              "path": "C:\\Users\\g.makindu.mokonzi.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-10-19T19-52-35-609Z\\project\\src\\reports\\CombinedReportPage.jsx",
+              "language": "javascript",
+              "code": "const lines=FILE_CONTENT.split(/\\r?\\n/); console.log(lines.slice(72,180).map((x,i)=>`${73+i}: ${x}`).join('\\n'));"
+            },
+            "error": "File access blocked: \"C:\\Users\\g.makindu.mokonzi.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-10-19T19-52-35-609Z\\project\\src\\reports\\CombinedReportPage.jsx\" resolves outside the project root (C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-10-19T19-52-35-609Z\\project). context-mode confines ctx_execute_file to the workspace so it cannot be used to bypass the host's sandbox/permission controls (issue #852). To intentionally process a file outside the project, add a host allow rule, e.g. \"permissions\": { \"allow\": [\"Read(C:\\Users\\g.makindu.mokonzi.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-10-19T19-52-35-609Z\\project\\src\\reports\\CombinedReportPage.jsx)\"] } in your settings.",
+            "time": {
+              "start": 1792441928431,
+              "end": 1792441928437
+            }
+          }
+        ]
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 30,
+        "ctxSucceeded": 28,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 13,
+        "ctxSucceeded": 12,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 1,
+        "ctxSucceeded": 1,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 14,
+        "ctxSucceeded": 13,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 7,
+        "ctxSucceeded": 7,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on\\run-1.export.json",
+    "name": "run-1.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 4,
+        "ctxSucceeded": 4,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 42,
+        "ctxSucceeded": 38,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 16,
+        "ctxSucceeded": 16,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 20,
+        "ctxSucceeded": 20,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 13,
+        "ctxSucceeded": 13,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 16,
+        "ctxSucceeded": 16,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 19,
+        "ctxSucceeded": 19,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on\\run-2.export.json",
+    "name": "run-2.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 2,
+        "ctxSucceeded": 2,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 17,
+        "ctxSucceeded": 17,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 20,
+        "ctxSucceeded": 20,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 28,
+        "ctxSucceeded": 28,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 9,
+        "ctxSucceeded": 9,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 25,
+        "ctxSucceeded": 25,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 13,
+        "ctxSucceeded": 13,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on\\run-3.export.json",
+    "name": "run-3.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 11,
+        "ctxSucceeded": 11,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 35,
+        "ctxSucceeded": 35,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 99,
+        "ctxSucceeded": 87,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 103,
+        "ctxSucceeded": 101,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 52,
+        "ctxSucceeded": 52,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 19,
+        "ctxSucceeded": 19,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 25,
+        "ctxSucceeded": 24,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on\\run-4.export.json",
+    "name": "run-4.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 7,
+        "ctxSucceeded": 7,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 34,
+        "ctxSucceeded": 34,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 25,
+        "ctxSucceeded": 25,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 49,
+        "ctxSucceeded": 46,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 22,
+        "ctxSucceeded": 22,
+        "permissions": [
+          {
+            "name": "bash",
+            "status": "error",
+            "input": {
+              "command": "npm run lint",
+              "timeout": 120000,
+              "workdir": "C:\\Users\\g.makindu.mokonzi.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-11-09T22-32-28-083Z\\project"
+            },
+            "error": "The user has specified a rule which prevents you from using this specific tool call. Here are some of the relevant rules [{\"permission\":\"*\",\"action\":\"allow\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"*\",\"action\":\"ask\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\GMAKIN~1.MOK\\\\AppData\\\\Local\\\\Temp\\\\opencode\\\\*\",\"action\":\"allow\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"action\":\"deny\",\"pattern\":\"*\"},{\"permission\":\"external_directory\",\"pattern\":\"C:\\\\Users\\\\g.makindu.mokonzi\\\\.local\\\\share\\\\opencode\\\\tool-output\\\\*\",\"action\":\"allow\"}]",
+            "time": {
+              "start": 1794276998340,
+              "end": 1794276998391
+            }
+          }
+        ]
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 16,
+        "ctxSucceeded": 16,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 22,
+        "ctxSucceeded": 21,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on\\run-5.export.json",
+    "name": "run-5.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 4,
+        "ctxSucceeded": 4,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 20,
+        "ctxSucceeded": 20,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 21,
+        "ctxSucceeded": 21,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 19,
+        "ctxSucceeded": 19,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 7,
+        "ctxSucceeded": 7,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 14,
+        "ctxSucceeded": 14,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 14,
+        "ctxSucceeded": 14,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on-no-routing\\run-0.export.json",
+    "name": "run-0.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on-no-routing\\run-1.export.json",
+    "name": "run-1.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 6,
+        "ctxSucceeded": 6,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 39,
+        "ctxSucceeded": 36,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 70,
+        "ctxSucceeded": 68,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 88,
+        "ctxSucceeded": 87,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 25,
+        "ctxSucceeded": 25,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 25,
+        "ctxSucceeded": 24,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 25,
+        "ctxSucceeded": 24,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on-no-routing\\run-2.export.json",
+    "name": "run-2.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 1,
+        "ctxSucceeded": 1,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on-no-routing\\run-3.export.json",
+    "name": "run-3.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 1,
+        "ctxSucceeded": 1,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 8,
+        "ctxSucceeded": 8,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 9,
+        "ctxSucceeded": 9,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on-no-routing\\run-4.export.json",
+    "name": "run-4.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 5,
+        "ctxSucceeded": 5,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 28,
+        "ctxSucceeded": 28,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 22,
+        "ctxSucceeded": 22,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 20,
+        "ctxSucceeded": 20,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 14,
+        "ctxSucceeded": 14,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 13,
+        "ctxSucceeded": 13,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 21,
+        "ctxSucceeded": 21,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  },
+  {
+    "file": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results\\on-no-routing\\run-5.export.json",
+    "name": "run-5.export.json",
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 7,
+        "ctxSucceeded": 7,
+        "permissions": []
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 30,
+        "ctxSucceeded": 29,
+        "permissions": []
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 23,
+        "ctxSucceeded": 23,
+        "permissions": []
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 27,
+        "ctxSucceeded": 26,
+        "permissions": []
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 9,
+        "ctxSucceeded": 9,
+        "permissions": []
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 11,
+        "ctxSucceeded": 11,
+        "permissions": []
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 19,
+        "ctxSucceeded": 19,
+        "permissions": []
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false,
+        "ctxAttempted": 0,
+        "ctxSucceeded": 0,
+        "permissions": []
+      }
+    ],
+    "unexpectedTurns": 0,
+    "protocolVerified": true
+  }
+]

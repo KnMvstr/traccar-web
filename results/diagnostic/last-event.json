@@ -1,0 +1,24 @@
+{
+  "type": "step_finish",
+  "timestamp": 1794263664165,
+  "sessionID": "ses_e3d8d9b3dffeozm4i4uteVNSff",
+  "part": {
+    "id": "prt_1c272c620001xtjCS5ioLmdtWn",
+    "reason": "stop",
+    "snapshot": "25f7dd842c7e4526272c11f7ab678f8b81137939",
+    "messageID": "msg_1c272a415001LiQfl7uQGNTppR",
+    "sessionID": "ses_e3d8d9b3dffeozm4i4uteVNSff",
+    "type": "step-finish",
+    "tokens": {
+      "total": 13307,
+      "input": 366,
+      "output": 459,
+      "reasoning": 381,
+      "cache": {
+        "write": 0,
+        "read": 12101
+      }
+    },
+    "cost": 0.00134137
+  }
+}

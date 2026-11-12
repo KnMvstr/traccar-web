@@ -1,0 +1,32 @@
+{
+  "refs": {
+    "off": "811d443f31343948a169205d1ea456d6af634318",
+    "on": "f90696de8eeb3c77a1f69daa0c56949d61a320f1",
+    "on-no-routing": "15c4af15428b51bea1d495e681c04314646af0ee"
+  },
+  "branches": {
+    "off": "benchmark/opencode-off",
+    "on": "benchmark/opencode-on-plus-routing",
+    "on-no-routing": "benchmark/opencode-on-no-routing"
+  },
+  "model": "github-copilot/gpt-5.6-luna",
+  "runs": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "firstArm": "off",
+  "toolHashes": {
+    "bench-lib.mjs": "56555a75590fa9bfe14c75b359e50d2835a72213e38c2315dfd795ccd899ca08",
+    "diagnose.mjs": "d48044b5a3e49fda1fa290049be4bef5921592cd936e5be07f0b71f3e14d8695",
+    "audit.mjs": "2649991e3212f3cd9893763e1fefffbf38531a801c33b1b748862bef3a4e57c0",
+    "run.mjs": "7c58747e68b7061a34fb53a450e1ea23b9d0c47830eb9e3905e2dba59511e5ea",
+    "compare.mjs": "db32dd10bd05489a679f3b35b76bc27110c5b4295c68cbc66502eaabe78e0d18",
+    "prompts.json": "85c97f1d636fbbda9b3380ad876ce4cb700d933adb96144c36479407952e71be"
+  },
+  "results": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\results",
+  "campaign": "C:\\Users\\g.makindu.mokonzi\\OneDrive - Accenture\\Desktop\\traccar-web\\.bench-work\\2026-11-09T22-32-28-083Z",
+  "createdAt": "2026-11-09T22:32:28.879Z"
+}

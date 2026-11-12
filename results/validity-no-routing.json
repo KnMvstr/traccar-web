@@ -1,0 +1,632 @@
+[
+  {
+    "arm": "off",
+    "run": 1,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "off",
+    "run": 2,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "off",
+    "run": 3,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "off",
+    "run": 4,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "off",
+    "run": 5,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "on-no-routing",
+    "run": 1,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "on-no-routing",
+    "run": 2,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "on-no-routing",
+    "run": 3,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "on-no-routing",
+    "run": 4,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  },
+  {
+    "arm": "on-no-routing",
+    "run": 5,
+    "valid": true,
+    "turns": [
+      {
+        "id": "P0",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P1",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P2",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P3",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P4",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P5",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P6",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      },
+      {
+        "id": "P7",
+        "valid": true,
+        "comparable": true,
+        "reason": null,
+        "contextDiverged": false
+      }
+    ]
+  }
+]

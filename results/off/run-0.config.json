@@ -1,0 +1,9 @@
+{
+  "stdout": "{\n  \"$schema\": \"https://opencode.ai/config.json\",\n  \"instructions\": [\n    \".opencode/instructions.md\"\n  ],\n  \"agent\": {\n    \"build\": {\n      \"permission\": {\n        \"external_directory\": \"deny\",\n        \"edit\": \"deny\",\n        \"doom_loop\": \"deny\",\n        \"question\": \"deny\",\n        \"task\": \"deny\",\n        \"webfetch\": \"deny\",\n        \"websearch\": \"deny\",\n        \"ctx_upgrade\": \"deny\",\n        \"ctx_purge\": \"deny\",\n        \"ctx_fetch_and_index\": \"deny\"\n      },\n      \"options\": {}\n    }\n  },\n  \"mode\": {},\n  \"plugin\": [],\n  \"command\": {},\n  \"permission\": {\n    \"external_directory\": \"deny\",\n    \"edit\": \"deny\",\n    \"doom_loop\": \"deny\",\n    \"question\": \"deny\",\n    \"task\": \"deny\",\n    \"webfetch\": \"deny\",\n    \"websearch\": \"deny\",\n    \"ctx_upgrade\": \"deny\",\n    \"ctx_purge\": \"deny\",\n    \"ctx_fetch_and_index\": \"deny\"\n  },\n  \"username\": \"g.makindu.mokonzi\"\n}\r\n",
+  "stderr": "",
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "error": null,
+  "abortReason": null
+}
