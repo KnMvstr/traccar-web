@@ -33,10 +33,15 @@ async function simulate(t, options = {}) {
       registerCommand: (name, fn) => { handlers.set(name, fn); return { dispose() {} }; },
       executeCommand: async (name, args) => {
         if (name === 'workbench.action.chat.newLocalChat') { run++; requests = []; events.push(`new:${run}`); }
+        if (name === 'workbench.action.chat.open' && args.query === '/autoApprove') {
+          events.push(`auto:${run}`);
+          return;
+        }
         if (name === 'workbench.action.chat.open' && args.query) {
           events.push(`send:${run}:${requests.length + 1}`);
           requests.push({ requestId: `r${run}-${requests.length}`, message: { text: args.query }, modelId: 'copilot/model',
-            response: [{ value: 'Done' }], modelState: { value: 1, completedAt: Date.now() } });
+            response: [{ value: 'Done' }], modelState: { value: 1, completedAt: Date.now() },
+            modeInfo: { permissionLevel: options.blockAutoApproval ? 'default' : 'autoApprove' } });
           if (options.approval) return { type: 'confirmation', kind: 'toolInvocation' };
           if (options.cancelled) requests.at(-1).modelState.value = 2;
           return {};
@@ -64,7 +69,7 @@ async function simulate(t, options = {}) {
 
 test('two runs open separate conversations and complete each ordered prompt', async t => {
   const { events, campaign, errors } = await simulate(t);
-  assert.deepEqual(events, ['new:1', 'send:1:1', 'send:1:2', 'new:2', 'send:2:1', 'send:2:2']);
+  assert.deepEqual(events, ['new:1', 'auto:1', 'send:1:1', 'send:1:2', 'new:2', 'auto:2', 'send:2:1', 'send:2:2']);
   assert.equal(campaign.complete, true);
   assert.equal(campaign.executionValid, true);
   assert.equal(campaign.metricsComparable, false);
@@ -74,7 +79,7 @@ test('two runs open separate conversations and complete each ordered prompt', as
 
 test('pending approval stops before the next prompt and preserves an invalid campaign', async t => {
   const { events, campaign, errors } = await simulate(t, { approval: true });
-  assert.deepEqual(events, ['new:1', 'send:1:1']);
+  assert.deepEqual(events, ['new:1', 'auto:1', 'send:1:1']);
   assert.equal(campaign.complete, false);
   assert.equal(campaign.executionValid, false);
   assert.match(errors[0], /Manual approval wait/);
@@ -82,7 +87,7 @@ test('pending approval stops before the next prompt and preserves an invalid cam
 
 test('manual approval continues the same turn without replaying it or creating a new chat', async t => {
   const { events, campaign, errors } = await simulate(t, { approval: true, finishApproval: true });
-  assert.deepEqual(events, ['new:1', 'send:1:1', 'send:1:2', 'new:2', 'send:2:1', 'send:2:2']);
+  assert.deepEqual(events, ['new:1', 'auto:1', 'send:1:1', 'send:1:2', 'new:2', 'auto:2', 'send:2:1', 'send:2:2']);
   assert.equal(campaign.complete, true);
   assert.deepEqual(errors, []);
   assert.equal(typeof campaign.runs[0].turns[0].manualApprovalWaitMs, 'number');
@@ -90,7 +95,14 @@ test('manual approval continues the same turn without replaying it or creating a
 
 test('cancelled response does not start the next prompt or mark the campaign complete', async t => {
   const { events, campaign, errors } = await simulate(t, { cancelled: true });
-  assert.deepEqual(events, ['new:1', 'send:1:1']);
+  assert.deepEqual(events, ['new:1', 'auto:1', 'send:1:1']);
   assert.equal(campaign.complete, false);
   assert.match(errors[0], /not successfully completed/);
+});
+
+test('does not silently continue if automatic approvals were blocked or not applied', async t => {
+  const { events, campaign, errors } = await simulate(t, { blockAutoApproval: true });
+  assert.deepEqual(events, ['new:1', 'auto:1', 'send:1:1']);
+  assert.equal(campaign.complete, false);
+  assert.match(errors[0], /Automatic approvals were not applied/);
 });

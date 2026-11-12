@@ -49,7 +49,7 @@ async function start(context, output) {
     schemaVersion: 1, client: 'vscode-copilot-native-chat', vscodeVersion: vscode.version,
     extensionVersion: context.extension.packageJSON.version,
     arm, branch, commit, model: { id: model.id, name: model.name, vendor: model.vendor, family: model.family, version: model.version },
-    runs, timeoutMs, createdAt: new Date().toISOString(),
+    runs, timeoutMs, permissionLevel: 'autoApprove', createdAt: new Date().toISOString(),
     contextMode: { declaredByUser: arm === 'on', verified: false },
     prompts: prompts.map(({ text, ...p }) => p),
     caveat: 'Internal VS Code commands; raw usage is not validated as complete per-call token accounting.',
@@ -77,6 +77,9 @@ async function start(context, output) {
           assertState();
           await vscode.commands.executeCommand('workbench.action.chat.open', { mode: 'agent' });
           await vscode.commands.executeCommand('workbench.action.chat.newLocalChat');
+          // Silent built-in slash command: changes this session only, with no model request.
+          await vscode.commands.executeCommand('workbench.action.chat.open', { mode: 'agent', query: '/autoApprove' });
+          output.appendLine(`Run ${run}/${runs}: automatic approvals requested for this conversation`);
           const result = { run, startedAt: new Date().toISOString(), turns: [], executionValid: false };
           campaign.runs.push(result);
           const expected = [];
@@ -136,6 +139,9 @@ async function start(context, output) {
             // VS Code exports the internal model identifier (not always the public API id).
             if (!actualModel) actualModel = session.requests?.[0]?.modelId;
             const request = validateExport(session, expected, actualModel, requestIds);
+            if (request.modeInfo?.permissionLevel !== 'autoApprove') {
+              throw Error('Automatic approvals were not applied to this conversation. Check the VS Code permissions menu or administrator policy.');
+            }
             if (previousRunRequestIds.has(request.requestId)) throw Error('A run reused a previous conversation');
             requestIds = session.requests.map(r => r.requestId);
             assertState();

@@ -3,7 +3,12 @@
 Le lanceur automatise le **chat Agent natif de VS Code**, sur la branche active.
 Il ne lance ni OpenCode ni Copilot CLI. Tu actives ou désactives Context Mode
 toi-même avant chaque campagne. Le lanceur ne modifie ni le MCP, ni les hooks,
-ni les extensions, ni les permissions.
+ni les extensions. Il active les approbations automatiques **dans chaque
+conversation de benchmark** avec la commande native `/autoApprove`, sans
+modifier les paramètres globaux. Cette commande silencieuse ne constitue pas
+un prompt de mesure. Le niveau `autoApprove` est vérifié dans chaque export ;
+la campagne s'arrête s'il n'est pas appliqué. Les consignes d'audit en lecture
+seule restent identiques pour OFF et ON.
 
 ## Lancer une campagne
 
