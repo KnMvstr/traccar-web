@@ -1,0 +1,54 @@
+{
+  "suite": "traccar-web-benchmark",
+  "sourceRef": "cd56d67c67fc801bb5a56260ae0a7dd4e7fc3314",
+  "prompts": [
+    {
+      "id": "P0",
+      "name": "P0_Inventory",
+      "file": "prompts/P0_StartupAndMapping.md",
+      "measure": "setup"
+    },
+    {
+      "id": "P1",
+      "name": "P1_FullAudit",
+      "file": "prompts/P1_FullAudit.md",
+      "measure": "initial"
+    },
+    {
+      "id": "P2",
+      "name": "P2_LivePositionReliability",
+      "file": "prompts/P2_LivePositionReliability.md",
+      "measure": "marginal"
+    },
+    {
+      "id": "P3",
+      "name": "P3_LoadingErrorEmptyStates",
+      "file": "prompts/P3_LoadingErrorEmptyStates.md",
+      "measure": "marginal"
+    },
+    {
+      "id": "P4",
+      "name": "P4_TestCoverageValidation",
+      "file": "prompts/P4_TestCoverageValidation.md",
+      "measure": "marginal"
+    },
+    {
+      "id": "P5",
+      "name": "P5_HistoryAndTripReplay",
+      "file": "prompts/P5_HistoryAndTripReplay.md",
+      "measure": "marginal"
+    },
+    {
+      "id": "P6",
+      "name": "P6_PreferencesAndSharedState",
+      "file": "prompts/P6_PreferencesAndSharedState.md",
+      "measure": "marginal"
+    },
+    {
+      "id": "P7",
+      "name": "P7_ChainSummary",
+      "file": "prompts/P7_ChainSummary.md",
+      "measure": "continuity"
+    }
+  ]
+}
