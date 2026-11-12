@@ -29,6 +29,11 @@ Dans cette nouvelle fenêtre :
 4. Laisse le chat disponible pendant toute la campagne : ne change pas de
    conversation, de modèle, de branche ou de fichiers.
 
+Si la fenêtre affiche uniquement Welcome sans dépôt ouvert, utilise
+**File > Open Folder…** et sélectionne `traccar-web`, puis relance la commande
+de benchmark. Le lanceur transmet explicitement le dossier avec `--folder-uri`
+pour préserver les chemins Windows contenant des espaces.
+
 Le nombre indiqué au démarrage est le nombre de runs **pour cette configuration**.
 Un run ouvre une conversation locale neuve et enchaîne P0–P7 en conservant son
 historique. La suite est copiée depuis le runner OpenCode ; son commit source et

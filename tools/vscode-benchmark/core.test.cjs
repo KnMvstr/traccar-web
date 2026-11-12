@@ -1,6 +1,17 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { positiveInteger, loadSuite, validateExport, summarizeTurn } = require('./core.cjs');
+const { launchArgs, positiveInteger, loadSuite, validateExport, summarizeTurn } = require('./core.cjs');
+const path = require('node:path');
+const { fileURLToPath } = require('node:url');
+
+test('launch opens an explicit folder URI, including spaces and non-ASCII paths', () => {
+  const root = path.resolve('OneDrive - Accenture', 'dépôt #1', 'traccar-web');
+  const args = launchArgs(path.join(root, 'tools', 'vscode-benchmark'), root);
+  assert.equal(args[2], '--folder-uri');
+  assert.equal(fileURLToPath(args[3]), root);
+  assert.match(args[3], /%20/);
+  assert.match(args[3], /%23/);
+});
 
 const request = (text = 'P0', id = 'r0') => ({
   requestId: id, message: { text }, modelId: 'copilot/model',

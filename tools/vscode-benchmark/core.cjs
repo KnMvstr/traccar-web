@@ -2,6 +2,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { createHash } = require('node:crypto');
+const { pathToFileURL } = require('node:url');
+
+function launchArgs(extension, root) {
+  return [`--extensionDevelopmentPath=${extension}`, '--new-window', '--folder-uri', pathToFileURL(root).href];
+}
 
 function positiveInteger(value, label) {
   const n = Number(value);
@@ -70,4 +75,4 @@ function summarizeTurn(prompt, request, durationMs) {
   };
 }
 
-module.exports = { positiveInteger, git, loadSuite, validateExport, summarizeTurn };
+module.exports = { launchArgs, positiveInteger, git, loadSuite, validateExport, summarizeTurn };

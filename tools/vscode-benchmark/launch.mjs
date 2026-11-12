@@ -18,7 +18,7 @@ if (!arm || (options.arm && options.arm !== arm)) throw Error('Branch does not m
 const config = { arm, runs: core.positiveInteger(options.runs ?? 5, 'Runs'), timeoutMs: core.positiveInteger(options['timeout-ms'] ?? 900000, 'Timeout') };
 fs.mkdirSync(path.join(root, '.bench-work'), { recursive: true });
 fs.writeFileSync(path.join(root, '.bench-work', 'vscode-launch.json'), JSON.stringify(config, null, 2));
-const args = [`--extensionDevelopmentPath=${extension}`, '--new-window', root];
+const args = core.launchArgs(extension, root);
 // Invoke the Windows .cmd via its known CLI script, without shell interpolation of paths.
 let child;
 if (process.platform === 'win32') {

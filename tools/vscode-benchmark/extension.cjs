@@ -10,7 +10,7 @@ async function start(context, output) {
   if (active) throw Error('A campaign is already running');
   if (!vscode.workspace.isTrusted) throw Error('Open a trusted workspace first');
   const folders = vscode.workspace.workspaceFolders;
-  if (folders?.length !== 1 || folders[0].uri.scheme !== 'file') throw Error('Open one local repository');
+  if (folders?.length !== 1 || folders[0].uri.scheme !== 'file') throw Error('Ouvre le dossier traccar-web dans cette fenêtre (Fichier > Ouvrir un dossier), puis relance Traccar Benchmark: Start Campaign');
   const root = folders[0].uri.fsPath;
   const branch = git(root, 'branch', '--show-current');
   const arms = { 'vscode-gthb-copilot-off': 'off', 'vscode-gthb-copilot-on': 'on' };
