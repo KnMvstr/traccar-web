@@ -5,11 +5,6 @@
   "scripts": {
     "compare": "node compare.mjs",
     "test": "node --test bench.test.mjs",
-    "audit": "node audit.mjs",
-    "dashboard": "npm --prefix benchmark-web run dev",
-    "dashboard:build": "npm --prefix benchmark-web run build",
-    "dashboard:start": "npm --prefix benchmark-web start",
-    "dashboard:test": "npm --prefix benchmark-web test",
-    "dashboard:refresh": "node benchmark-web/scripts/prepare-data.mjs"
+    "audit": "node audit.mjs"
   }
 }

@@ -7,13 +7,12 @@
 [![TanStack Table](https://img.shields.io/badge/TanStack_Table-FF4154)](https://tanstack.com/table)
 [![Node.js](https://img.shields.io/badge/Node.js-5FA04E?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
-## Dynamic benchmark webpages
+## Dashboard des benchmarks
 
-The [Benchmark Observatory](benchmark-web/README.md) provides separate OpenCode
-and VSCode Copilot pages with interactive charts, filtered tables, cost estimates
-and a benchmark date footer. Completed, validated campaigns update automatically;
-incomplete campaigns preserve the last completed view. Start with
-`cd benchmark-web`, `npm install`, then `npm run dev`.
+Le dashboard est maintenu sur la branche dédiée `benchmark/dashboard`.
+Pour le lancer, basculer sur cette branche, puis exécuter dans `benchmark-web` :
+`npm install`, `npm run build` et `npm start`.
+Cette branche runner conserve les scripts d'exécution et d'analyse des benchmarks.
 
 Cette branche sert de **runner de benchmark OpenCode** pour mesurer l'impact
 de `context-mode` sur une séquence de prompts d'audit Traccar Web.

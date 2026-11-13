@@ -157,11 +157,3 @@ try {
   }
 }
 console.error(`\nRésultats : ${results}`);
-// Update the durable dashboard only after both measured comparisons succeeded.
-// Dashboard failures must never change the benchmark outcome.
-if (!pilot && existsSync(join(repo, 'benchmark-web/scripts/prepare-data.mjs'))) {
-  const dashboard = spawnSync(node, [join(repo, 'benchmark-web/scripts/prepare-data.mjs')], {
-    cwd: repo, stdio: 'inherit', env: { ...process.env, OPENCODE_RESULTS: results },
-  });
-  if (dashboard.status !== 0) console.error('Dashboard refresh failed; previous completed results retained.');
-}
