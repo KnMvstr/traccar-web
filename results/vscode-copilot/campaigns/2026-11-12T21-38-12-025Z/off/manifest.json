@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "client": "vscode-copilot-native-chat",
+  "vscodeVersion": "1.146.0",
+  "extensionVersion": "0.1.0",
+  "arm": "off",
+  "branch": "vscode-gthb-copilot-off",
+  "commit": "8e3c0faa7d1cd55dda825b0bec02e3c8c70c2ce0",
+  "model": {
+    "id": "gpt-5.6-luna",
+    "name": "GPT-5.6 Luna",
+    "vendor": "copilot",
+    "family": "gpt-5.6-luna",
+    "version": "gpt-5.6-luna"
+  },
+  "runs": 5,
+  "timeoutMs": 900000,
+  "permissionLevel": "autoApprove",
+  "createdAt": "2026-11-12T21:38:12.027Z",
+  "contextMode": {
+    "declaredByUser": false,
+    "verified": false
+  },
+  "prompts": [
+    {
+      "id": "P0",
+      "name": "P0_Inventory",
+      "file": "prompts/P0_StartupAndMapping.md",
+      "measure": "setup",
+      "sha256": "d386109af265f8197df464bc309b39416c64bfa9b3cdcfba9a9c9493459373ab"
+    },
+    {
+      "id": "P1",
+      "name": "P1_FullAudit",
+      "file": "prompts/P1_FullAudit.md",
+      "measure": "initial",
+      "sha256": "6efdcf6148c74424aeec37a888130418e0511ded0a0ec3e10d4f00713592e29b"
+    },
+    {
+      "id": "P2",
+      "name": "P2_LivePositionReliability",
+      "file": "prompts/P2_LivePositionReliability.md",
+      "measure": "marginal",
+      "sha256": "3a43ae258b4c042929211ca2e9253b28636b7116a01a1f45f30ca8c1ea6fb7a0"
+    },
+    {
+      "id": "P3",
+      "name": "P3_LoadingErrorEmptyStates",
+      "file": "prompts/P3_LoadingErrorEmptyStates.md",
+      "measure": "marginal",
+      "sha256": "8b930201dbbbbb85bd05fbf1511219ec4c60d9ff28808af0a5468bbfa2df09bc"
+    },
+    {
+      "id": "P4",
+      "name": "P4_TestCoverageValidation",
+      "file": "prompts/P4_TestCoverageValidation.md",
+      "measure": "marginal",
+      "sha256": "9b46da4dc0ffb6f7a1a582730c70a564775382b83a2258b8e0686291a4cf81fd"
+    },
+    {
+      "id": "P5",
+      "name": "P5_HistoryAndTripReplay",
+      "file": "prompts/P5_HistoryAndTripReplay.md",
+      "measure": "marginal",
+      "sha256": "3cbf79b5fe4782a8cbc2eddd68fc9cae2027c25e776aaf19ca9582637f2d3bd9"
+    },
+    {
+      "id": "P6",
+      "name": "P6_PreferencesAndSharedState",
+      "file": "prompts/P6_PreferencesAndSharedState.md",
+      "measure": "marginal",
+      "sha256": "a14ccaeb36fba55aef5aa78b2afda0d0c07ff7bf58e231b8790167c04d97d6dd"
+    },
+    {
+      "id": "P7",
+      "name": "P7_ChainSummary",
+      "file": "prompts/P7_ChainSummary.md",
+      "measure": "continuity",
+      "sha256": "ac337ee368467bdc944df096917833fe99d90f9d7cd5e5c26b4115df15dc20a7"
+    }
+  ],
+  "caveat": "Internal VS Code commands; raw usage is not validated as complete per-call token accounting."
+}
