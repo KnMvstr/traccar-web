@@ -1,0 +1,17 @@
+{
+  "name": "traccar-vscode-benchmark",
+  "displayName": "Traccar VS Code Benchmark",
+  "description": "Run repeated audit conversations in the native VS Code Copilot Agent chat.",
+  "version": "0.1.0",
+  "publisher": "traccar-benchmark",
+  "engines": { "vscode": ">=1.146.0" },
+  "main": "./extension.cjs",
+  "activationEvents": ["onCommand:traccarBenchmark.start", "onCommand:traccarBenchmark.stop"],
+  "contributes": {
+    "commands": [
+      { "command": "traccarBenchmark.start", "title": "Traccar Benchmark: Start Campaign" },
+      { "command": "traccarBenchmark.stop", "title": "Traccar Benchmark: Stop Campaign" }
+    ]
+  },
+  "scripts": { "test": "node --test core.test.cjs campaign.test.cjs" }
+}
