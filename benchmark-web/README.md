@@ -1,5 +1,40 @@
 # Benchmark Observatory
 
+## Résultats VS Code sur la branche dashboard
+
+La branche `benchmark/dashboard` lit directement les archives commitées dans
+`results/vscode-copilot/campaigns/` sur les refs
+`origin/vscode-gthb-copilot-off` et `origin/vscode-gthb-copilot-on`.
+Il n'est pas nécessaire de fusionner les branches mesurées ni de recopier leurs
+exports dans le dashboard. Aucun autre dossier de travail n'est nécessaire.
+
+```powershell
+git fetch origin
+git switch benchmark/dashboard
+cd benchmark-web
+npm install
+npm run build
+npm start
+```
+
+Ouvrir `http://127.0.0.1:4173/vscode-copilot`. La section « Résultats d'exécution
+VS Code » expose les campagnes terminées, les cinq runs OFF archivés, les
+durées par prompt et l'attente manuelle. Les tokens et coûts non validés restent
+exclus des graphiques de consommation. Les résumés sont téléchargeables en JSON ;
+les exports bruts compressés restent sur la branche source au chemin affiché.
+
+Le serveur relit les refs Git toutes les cinq secondes et la page se rafraîchit
+toutes les dix secondes. Après publication d'une nouvelle archive sur GitHub,
+faire `git fetch origin` pour actualiser ces refs ; aucun accès réseau automatique
+n'est effectué. Pour lire d'autres branches, définir `COPILOT_ARCHIVE_REFS`
+avec des noms séparés par des virgules avant le lancement.
+
+`npm run prepare-data` produit le snapshot
+`public/data/vscode-copilot-archives.json` ; le build permet aussi sa consultation
+hors ligne après publication. Un échec de lecture conserve la dernière archive
+exploitable. Les résultats d'exécution ne constituent pas une validation des
+mesures de tokens.
+
 Local React/TypeScript dashboard with separate `/opencode` and `/vscode-copilot`
 pages, ECharts visualizations, sortable tables, CSV export and campaign history.
 

@@ -3,6 +3,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { tokens } from '../../bench-lib.mjs';
+import { publishCopilotArchives } from './copilot-archives.mjs';
 
 export const webRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const read = path => JSON.parse(readFileSync(path, 'utf8'));
@@ -109,6 +110,7 @@ export function prepareData(options = {}) {
   const pricing = read(resolve(webRoot, 'config/pricing.json'));
   const output = options.output ?? resolve(webRoot, 'public/data');
   return [publishSource('opencode', options.opencode ?? process.env.OPENCODE_RESULTS ?? resolve(webRoot, '../results'), output, pricing),
-    publishSource('vscode-copilot', options.copilot ?? process.env.COPILOT_RESULTS ?? resolve(webRoot, '../results/vscode-copilot'), output, pricing)];
+    publishSource('vscode-copilot', options.copilot ?? process.env.COPILOT_RESULTS ?? resolve(webRoot, '../results/vscode-copilot'), output, pricing),
+    publishCopilotArchives(resolve(webRoot, '..'), output, process.env.COPILOT_ARCHIVE_REFS?.split(',').map(s => s.trim()).filter(Boolean))];
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) console.log(JSON.stringify(prepareData(), null, 2));

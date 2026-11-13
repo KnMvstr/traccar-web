@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "campaigns": [
+    {
+      "id": "c98ca3c3e9f674ac38cd95405ed5e6270789eef6:results/vscode-copilot/campaigns/2026-11-12T21-38-12-025Z/off",
+      "sourceRef": "origin/vscode-gthb-copilot-off",
+      "archiveCommit": "c98ca3c3e9f674ac38cd95405ed5e6270789eef6",
+      "archivePath": "results/vscode-copilot/campaigns/2026-11-12T21-38-12-025Z/off",
+      "arm": "off",
+      "model": "gpt-5.6-luna",
+      "sourceCommit": "8e3c0faa7d1cd55dda825b0bec02e3c8c70c2ce0",
+      "startedAt": "2026-11-12T21:38:12.027Z",
+      "finishedAt": "2026-11-12T22:38:41.021Z",
+      "executionValid": true,
+      "metricsComparable": false,
+      "permissionLevel": "autoApprove",
+      "runs": [
+        {
+          "run": 1,
+          "finishedAt": "2026-11-12T21:50:05.500Z",
+          "durationMs": 706855,
+          "turns": [
+            {
+              "id": "P0",
+              "durationMs": 20976,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P1",
+              "durationMs": 90821,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P2",
+              "durationMs": 104116,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P3",
+              "durationMs": 93268,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P4",
+              "durationMs": 110050,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P5",
+              "durationMs": 144233,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P6",
+              "durationMs": 132879,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P7",
+              "durationMs": 10512,
+              "manualApprovalWaitMs": 0
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "finishedAt": "2026-11-12T22:03:38.285Z",
+          "durationMs": 805254,
+          "turns": [
+            {
+              "id": "P0",
+              "durationMs": 17052,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P1",
+              "durationMs": 107561,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P2",
+              "durationMs": 132258,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P3",
+              "durationMs": 91783,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P4",
+              "durationMs": 153070,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P5",
+              "durationMs": 122951,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P6",
+              "durationMs": 166904,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P7",
+              "durationMs": 13675,
+              "manualApprovalWaitMs": 0
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "finishedAt": "2026-11-12T22:15:51.584Z",
+          "durationMs": 726172,
+          "turns": [
+            {
+              "id": "P0",
+              "durationMs": 33571,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P1",
+              "durationMs": 138795,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P2",
+              "durationMs": 101069,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P3",
+              "durationMs": 91787,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P4",
+              "durationMs": 97242,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P5",
+              "durationMs": 110180,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P6",
+              "durationMs": 141293,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P7",
+              "durationMs": 12235,
+              "manualApprovalWaitMs": 0
+            }
+          ]
+        },
+        {
+          "run": 4,
+          "finishedAt": "2026-11-12T22:27:31.854Z",
+          "durationMs": 692916,
+          "turns": [
+            {
+              "id": "P0",
+              "durationMs": 30854,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P1",
+              "durationMs": 109749,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P2",
+              "durationMs": 97340,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P3",
+              "durationMs": 91292,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P4",
+              "durationMs": 92169,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P5",
+              "durationMs": 100765,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P6",
+              "durationMs": 161176,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P7",
+              "durationMs": 9571,
+              "manualApprovalWaitMs": 0
+            }
+          ]
+        },
+        {
+          "run": 5,
+          "finishedAt": "2026-11-12T22:38:41.021Z",
+          "durationMs": 661515,
+          "turns": [
+            {
+              "id": "P0",
+              "durationMs": 18291,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P1",
+              "durationMs": 102472,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P2",
+              "durationMs": 92333,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P3",
+              "durationMs": 94580,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P4",
+              "durationMs": 115166,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P5",
+              "durationMs": 126552,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P6",
+              "durationMs": 101473,
+              "manualApprovalWaitMs": 0
+            },
+            {
+              "id": "P7",
+              "durationMs": 10648,
+              "manualApprovalWaitMs": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
