@@ -39,8 +39,7 @@ export default function CopilotArchives({ language }: { language: 'en' | 'fr' })
     <div className="filters" style={{ padding: '0 26px' }}><label>{fr ? 'CAMPAGNE' : 'CAMPAIGN'}
       <select value={campaign.id} onChange={e => setSelected(e.target.value)}>{campaigns.map(c => <option key={c.id} value={c.id}>{c.arm.toUpperCase()} · {date(c.finishedAt)} Paris · {c.runs.length} runs</option>)}</select>
     </label></div>
-    <p style={{ padding: '0 26px' }}>{campaign.model} · {campaign.sourceRef} · {campaign.permissionLevel ?? '—'}<br/>
-      {fr ? 'Archive Git' : 'Git archive'} : <code>{campaign.archiveCommit.slice(0, 8)}</code> · <code>{campaign.archivePath}</code></p>
+    <p style={{ padding: '0 26px' }}>Context Mode {campaign.arm.toUpperCase()} · {campaign.model} · {campaign.runs.length} runs</p>
     <div className="table-scroll"><table><thead><tr><th>Run</th><th>{fr ? 'Durée totale (min)' : 'Total time (min)'}</th>
       {campaign.runs[0].turns.map(t => <th key={t.id}>{t.id} (min)</th>)}<th>{fr ? 'Attente manuelle (min)' : 'Manual wait (min)'}</th>
     </tr></thead><tbody>{campaign.runs.map(r => <tr key={r.run}><td>{r.run}</td><td>{minutes(r.durationMs)}</td>

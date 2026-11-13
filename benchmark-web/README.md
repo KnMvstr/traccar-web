@@ -21,7 +21,9 @@ Ouvrir `http://127.0.0.1:4173/vscode-copilot`. La section « Résultats d'exécu
 VS Code » expose les campagnes terminées, les cinq runs OFF archivés, les
 durées par prompt et l'attente manuelle. Les tokens et coûts non validés restent
 exclus des graphiques de consommation. Les résumés sont téléchargeables en JSON ;
-les exports bruts compressés restent sur la branche source au chemin affiché.
+les exports bruts compressés restent sur la branche source. La référence Git,
+le commit et le chemin de l'archive sont conservés dans les résumés JSON
+téléchargeables, sans encombrer l'affichage principal.
 
 Le serveur relit les refs Git toutes les cinq secondes et la page se rafraîchit
 toutes les dix secondes. Après publication d'une nouvelle archive sur GitHub,
