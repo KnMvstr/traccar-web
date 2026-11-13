@@ -39,7 +39,8 @@ function validateExport(session, expected, modelId, priorRequestIds = []) {
   }
   for (let i = 0; i < requests.length; i++) {
     const r = requests[i];
-    if (r.message?.text !== expected[i]) throw Error(`Prompt mismatch at turn ${i + 1}`);
+    // VS Code may normalize line endings (CRLF on Windows) in the stored message.
+    if (typeof r.message?.text !== 'string' || r.message.text.replace(/\r\n/g, '\n') !== expected[i].replace(/\r\n/g, '\n')) throw Error(`Prompt mismatch at turn ${i + 1}`);
     if (!r.requestId || (i < priorRequestIds.length && r.requestId !== priorRequestIds[i])) {
       throw Error('Conversation continuity lost');
     }

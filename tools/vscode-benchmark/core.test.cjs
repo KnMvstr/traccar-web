@@ -35,6 +35,11 @@ test('accepts consecutive turns in the same conversation', () => {
   assert.equal(validateExport({ requests: [first, second] }, ['P0', 'P1'], 'copilot/model', ['r0']), second);
 });
 
+test('accepts exported prompts whose line endings were normalized to CRLF', () => {
+  const r = request('line1\r\n\r\nline2');
+  assert.equal(validateExport({ requests: [r] }, ['line1\n\nline2'], 'copilot/model'), r);
+});
+
 test('rejects interrupted, failed, empty or unknown export states', () => {
   for (const value of [0, 2, 3, 4, undefined]) {
     const r = request(); r.modelState.value = value;
